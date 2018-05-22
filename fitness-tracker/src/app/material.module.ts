@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import {MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule,
 MatDatepickerModule, MatNativeDateModule, MatCheckboxModule, MatSidenavModule,
 MatToolbarModule, MatListModule, MatTabsModule, MatCardModule, MatSelectModule,
-MatProgressSpinnerModule, MatDialogModule } from '@angular/material';
+MatProgressSpinnerModule, MatDialogModule , MatTableModule} from '@angular/material';
 
 const matModules : any[] = [
     MatButtonModule,
@@ -19,7 +19,8 @@ const matModules : any[] = [
     MatCardModule,
     MatSelectModule,
     MatProgressSpinnerModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTableModule
 ];
 
 @NgModule({
