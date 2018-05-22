@@ -1,5 +1,4 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { EventEmitter } from 'protractor';
 
 @Component({
   selector: 'app-sidenav-list',
