@@ -3,7 +3,7 @@ import {MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule,
 MatDatepickerModule, MatNativeDateModule, MatCheckboxModule, MatSidenavModule,
 MatToolbarModule, MatListModule, MatTabsModule, MatCardModule, MatSelectModule,
 MatProgressSpinnerModule, MatDialogModule , MatTableModule,
-MatSortModule} from '@angular/material';
+MatSortModule, MatPaginatorModule} from '@angular/material';
 
 const matModules : any[] = [
     MatButtonModule,
@@ -22,7 +22,8 @@ const matModules : any[] = [
     MatProgressSpinnerModule,
     MatDialogModule,
     MatTableModule,
-    MatSortModule
+    MatSortModule,
+    MatPaginatorModule
 ];
 
 @NgModule({
