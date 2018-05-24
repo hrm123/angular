@@ -4,6 +4,7 @@ import { EventEmitter } from 'events';
 import {Subject} from 'rxjs/Subject';
 import {AngularFirestore} from 'angularfire2/firestore';
 import { Subscription } from 'rxjs';
+import { UIService } from '../shared/ui.service';
 
 @Injectable()
 export class TrainingService {
@@ -26,9 +27,10 @@ export class TrainingService {
     exercisesChanged = new Subject<Exercise[]>();
     finishedExercisesChanged = new Subject<Exercise[]>();
 
-    constructor(private db: AngularFirestore) {}
+    constructor(private db: AngularFirestore, private uiService : UIService) {}
 
     fetchExercises() {
+        this.uiService.loadingStateChanged.next(true);
         this.fbSubs.push(this.db.collection("availableExercises")
             .snapshotChanges()
             .map(docArray => {
@@ -40,12 +42,19 @@ export class TrainingService {
                     calories: doc.payload.doc.data()["calories"]
                     };
                 });
+               // throw( new Error());
             })
             .subscribe((exercises: Exercise[]) => {
+                this.uiService.loadingStateChanged.next(false);
                 console.log(exercises);
                 this.availableExercises = exercises;
                 this.exercisesChanged.next([...this.availableExercises]);
+            }, (err) => {
+                this.uiService.loadingStateChanged.next(false);
+                this.uiService.showSnackBar("Fetchign exercises failed. Please try agian later.", null, 3000)
+                this.exercisesChanged.next(null);
             }));
+        
       //return this.availableExercises.slice();
     }
 
