@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { AngularFireAuthModule } from "angularfire2/auth";
 import { SharedModule } from "../shared/shared.module";
+import { AuthRoutingModule } from "./auth-routing.module";
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { SharedModule } from "../shared/shared.module";
     imports: [
         SharedModule ,
         ReactiveFormsModule,
-        AngularFireAuthModule
+        AngularFireAuthModule,
+        AuthRoutingModule
     ],
     exports: []
 }) 
