@@ -5,7 +5,6 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import {AngularFireAuth} from 'angularfire2/auth';
-import { TrainingService } from '../training/training.service';
 import { UIService } from '../shared/ui.service';
 
 @Injectable()
@@ -15,7 +14,6 @@ export class AuthService {
     private isAuthenticated = false;;  
 
     constructor(private router: Router, private afAuth: AngularFireAuth,
-        private trainingService : TrainingService,
         private uiService: UIService  ) { }
 
 
@@ -24,11 +22,14 @@ export class AuthService {
             if(user) {
                 this.authChange.next(true);
                 this.isAuthenticated = true;
+                // console.log('fbUser', user.uid);
+                this.user = { email : user.email , userId : user.uid};
+                // this.user = user;
                 this.router.navigate(['/training']);
             } else { // no user means logged out
-                this.trainingService.cancelSubscriptions();
                 this.isAuthenticated = false;
                 this.authChange.next(false);
+                this.user = null;
                 this.router.navigate(['/login']);        
             }
         });

@@ -6,5 +6,6 @@ export interface Exercise {
     duration: number;
     calories: number;
     date?: Date;
+    userId: string;
     state? : 'completed' | 'cancelled' | null;
 }

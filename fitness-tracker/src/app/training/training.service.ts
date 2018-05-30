@@ -5,10 +5,10 @@ import {Subject} from 'rxjs/Subject';
 import {AngularFirestore} from 'angularfire2/firestore';
 import { Subscription } from 'rxjs';
 import { UIService } from '../shared/ui.service';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class TrainingService {
-
     
     private availableExercises : Exercise[] = [];
     private fbSubs : Subscription[] = [];
@@ -27,7 +27,7 @@ export class TrainingService {
     exercisesChanged = new Subject<Exercise[]>();
     finishedExercisesChanged = new Subject<Exercise[]>();
 
-    constructor(private db: AngularFirestore, private uiService : UIService) {}
+    constructor(private db: AngularFirestore, private uiService : UIService, private authService: AuthService) {}
 
     fetchExercises() {
         this.uiService.loadingStateChanged.next(true);
@@ -51,7 +51,7 @@ export class TrainingService {
                 this.exercisesChanged.next([...this.availableExercises]);
             }, (err) => {
                 this.uiService.loadingStateChanged.next(false);
-                this.uiService.showSnackBar("Fetchign exercises failed. Please try agian later.", null, 3000)
+                this.uiService.showSnackBar("Fetching exercises failed. Please try agian later.", null, 3000)
                 this.exercisesChanged.next(null);
             }));
         
@@ -63,7 +63,8 @@ export class TrainingService {
     }
 
     fetchPreviousExercises() {
-        this.fbSubs.push(this.db.collection('finishedExercises')
+        this.fbSubs.push(this.db.collection('finishedExercises', item => 
+            item.where('userId','==',this.authService.getUser().userId))
         .valueChanges()
         .subscribe((exercises: Exercise []) =>{
             this.finishedExercises = exercises;
@@ -105,6 +106,7 @@ export class TrainingService {
     }
 
     private addDataToDatabase(exercise : Exercise) {
+        exercise.userId =  this.authService.getUser().userId;
         this.db.collection('finishedExercises').add(exercise);
     }
 
