@@ -5,7 +5,8 @@ import { AuthGuard } from "./auth/auth.guard";
 
 const routes: Routes = [
     {path: '', component: WelcomeComponent},
-    {path: 'training', loadChildren: 'app/training/training.module#TrainingModule', canLoad: [AuthGuard] }
+    {path: 'training', loadChildren: 'app/training/training.module#TrainingModule', canLoad: [AuthGuard] },
+    {path: 'chat', loadChildren: 'app/chat/chat.module#ChatModule', canLoad: [AuthGuard] }
 ];
 
 @NgModule({

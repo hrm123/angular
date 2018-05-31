@@ -15,6 +15,7 @@ import { TrainingService } from './training/training.service';
 import {environment} from '../environments/environment';
 import { UIService } from './shared/ui.service';
 import { AuthModule } from './auth/auth.module';
+import { ChatService } from './chat/chat.service';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,7 @@ import { AuthModule } from './auth/auth.module';
   exports: [
     
   ],
-  providers: [AuthService, TrainingService, UIService],
+  providers: [AuthService, TrainingService, UIService, ChatService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
