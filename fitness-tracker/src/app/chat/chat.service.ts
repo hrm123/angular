@@ -26,7 +26,7 @@ export class ChatService {
         ref.orderBy("sentTS","desc")
         .limit(500))
         .valueChanges()
-        .subscribe((messages: IM[]) =>{
+        .subscribe((messages: IM[]) => {
             this.prevIms = messages;
             this.imsChanged.next(messages);
         }));
@@ -35,7 +35,6 @@ export class ChatService {
 
 
     sendIM(message : IM) {
-      message.userid =  this.authService.getUser().userId;
       this.db.collection('messages').add(message);
     }
 

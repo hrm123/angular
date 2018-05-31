@@ -1,3 +1,45 @@
-<p>
-  chat-room works!
-</p>
+<section class="chat-room">
+  <div fxLayoutAlign="center center">
+      <mat-icon>filter</mat-icon>
+    <mat-form-field>
+      <input matInput type="text" (keyup)="doFilter($event.target.value)" placehodler="filter">
+    </mat-form-field>
+  </div>
+  <div fxLayoutAlign="flex-end">
+      <button type="button" color="primary" *ngIf="!ims" mat-raised-button (click)="refresh()"><mat-icon>refresh</mat-icon></button>
+    </div>
+
+  <mat-table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="email">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>User Id</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.email }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="message">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Message</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.message }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="sentTS">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Time</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.sentTS }}</mat-cell>
+    </ng-container>    
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+  </mat-table>
+  <form fxLayout="column" fxLayoutAlign="center center"
+   #f="ngForm" (ngSubmit)="onSubmit(f)" fxLayoutGap="10">
+
+        <mat-form-field>
+            <textarea  rows="3" required matInput ngModel name="newMessage" placeholder="start typing"></textarea>
+        </mat-form-field>
+      
+      <div fxLayoutAlign="center center">
+          <button type="submit" mat-raised-button color="primary" [disabled]="f.invalid">Send</button>
+          
+      </div>
+  </form>
+
+</section>

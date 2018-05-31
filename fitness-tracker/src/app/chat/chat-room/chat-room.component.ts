@@ -1,16 +1,57 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { MatTableDataSource, MatRow, MatHeaderRow, MatSort, MatPaginator, MatIcon, MatCell } from '@angular/material';
+import { IM } from '../IM.model';
 import { ChatService } from '../chat.service';
+import { Subscription } from 'rxjs';
+import { NgForm } from '@angular/forms';
+import { AuthService } from '../../auth/auth.service';
+
 
 @Component({
   selector: 'app-chat-room',
   templateUrl: './chat-room.component.html',
   styleUrls: ['./chat-room.component.css']
 })
-export class ChatRoomComponent implements OnInit {
+export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  constructor(private chatService : ChatService) { }
+  displayedColumns = ["email", "message", "sentTS"];
+  dataSource = new MatTableDataSource<IM>();
+  private imsChangedSubscription : Subscription;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  constructor(private chatService: ChatService, private authService: AuthService) { }
 
   ngOnInit() {
+    this.imsChangedSubscription = this.chatService.imsChanged.subscribe((ims : IM[]) => {
+      this.dataSource.data = ims;
+    });
+    this.chatService.fetchExercises();
   }
+
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+
+  }
+
+  doFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  onSubmit(form: NgForm) {
+    this.chatService.sendIM({ 
+      message: form.value.newMessage,
+      userId:  this.authService.getUser().userId,
+      email:  this.authService.getUser().email,
+      sentTS:  new Date()
+    });
+    form.reset();
+
+  }
+
+  ngOnDestroy() {
+    this.imsChangedSubscription.unsubscribe();
+  }
+
 
 }

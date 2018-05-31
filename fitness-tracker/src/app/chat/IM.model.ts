@@ -1,5 +1,6 @@
 export interface IM {
-    userid: string;
+    email: string;
     message: string;
     sentTS: Date;
+    userId?: string
 }
