@@ -9,7 +9,7 @@
       <button type="button" color="primary" *ngIf="!ims" mat-raised-button (click)="refresh()"><mat-icon>refresh</mat-icon></button>
     </div>
 
-  <mat-table [dataSource]="dataSource" matSort>
+  <mat-table [dataSource]="dataSource" matSort *ngIf="showTable">
     <ng-container matColumnDef="email">
       <mat-header-cell *matHeaderCellDef mat-sort-header>User Id</mat-header-cell>
       <mat-cell *matCellDef="let element">{{ element.email }}</mat-cell>
@@ -29,6 +29,12 @@
     <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 
   </mat-table>
+
+  <app-chat-card  *ngFor="let msg of ims" [userIM]="msg">
+
+  </app-chat-card>
+
+
   <form fxLayout="column" fxLayoutAlign="center center"
    #f="ngForm" (ngSubmit)="onSubmit(f)" fxLayoutGap="10">
 

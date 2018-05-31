@@ -23,7 +23,7 @@ export class ChatService {
         .limit(500);
 
         this.imSubs.push(this.db.collection('messages', ref => 
-        ref.orderBy("sentTS","desc")
+        ref.orderBy("sentTS","asc")
         .limit(500))
         .valueChanges()
         .subscribe((messages: IM[]) => {

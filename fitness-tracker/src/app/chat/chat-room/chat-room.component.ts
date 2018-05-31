@@ -5,7 +5,7 @@ import { ChatService } from '../chat.service';
 import { Subscription } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../../auth/auth.service';
-
+import {ChatCardComponent} from '../chat-card/chat-card.component'
 
 @Component({
   selector: 'app-chat-room',
@@ -14,9 +14,11 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
 
+  showTable = false;
   displayedColumns = ["email", "message", "sentTS"];
   dataSource = new MatTableDataSource<IM>();
   private imsChangedSubscription : Subscription;
+  ims: IM[];
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -25,6 +27,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this.imsChangedSubscription = this.chatService.imsChanged.subscribe((ims : IM[]) => {
       this.dataSource.data = ims;
+      this.ims = ims;
     });
     this.chatService.fetchExercises();
   }
