@@ -19,6 +19,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
   dataSource = new MatTableDataSource<IM>();
   private imsChangedSubscription : Subscription;
   ims: IM[];
+  lastFetch: Date = null;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -27,7 +28,15 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this.imsChangedSubscription = this.chatService.imsChanged.subscribe((ims : IM[]) => {
       this.dataSource.data = ims;
-      this.ims = ims;
+      if(this.lastFetch){
+        let filteredIms = ims.filter( i => i.sentTS > this.lastFetch)
+        this.ims = [...this.ims, ...filteredIms ]
+        this.lastFetch = new Date();
+      } else {
+        this.ims = ims;        
+        this.lastFetch = new Date();
+      }
+      
     });
     this.chatService.fetchExercises();
   }
