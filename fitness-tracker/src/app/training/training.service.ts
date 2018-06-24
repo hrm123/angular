@@ -21,6 +21,7 @@ export class TrainingService {
     ];
     */
 
+    
     private runningExercise : Exercise; 
     private finishedExercises : Exercise[] = []; 
     exerciseChanged = new Subject<Exercise>();
