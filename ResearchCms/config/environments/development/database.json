@@ -1,0 +1,21 @@
+{
+  "defaultConnection": "default",
+  "connections": {
+    "default": {
+      "connector": "strapi-hook-mongoose",
+      "settings": {
+        "client": "mongo",
+        "host": "ds163156.mlab.com",
+        "srv": false,
+        "port": "63156",
+        "database": "researchcms",
+        "username": "boa_ram",
+        "password": "P@ssw0rd!"
+      },
+      "options": {
+        "authenticationDatabase": "researchcms",
+        "ssl": false
+      }
+    }
+  }
+}
