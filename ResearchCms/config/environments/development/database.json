@@ -9,8 +9,8 @@
         "srv": false,
         "port": "63156",
         "database": "researchcms",
-        "username": "boa_ram",
-        "password": "P@ssw0rd!"
+        "username": "boa_user1",
+        "password": "awes0meCms"
       },
       "options": {
         "authenticationDatabase": "researchcms",
