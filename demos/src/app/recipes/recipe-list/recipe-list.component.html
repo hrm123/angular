@@ -6,9 +6,9 @@
 <div class="row" >
     <div class="col-xs-12">
         
-        <app-recipe-item  *ngFor="let recipeObj of recipes"
+        <app-recipe-item  *ngFor="let recipeObj of recipes; let i = index"
          [recipe]="recipeObj"
-         
+         [index]="i"
          ></app-recipe-item>
     </div>
 </div>
