@@ -1,5 +1,6 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Recipe } from '../recipe.model';
+import { RecipeService } from '../recipe.service';
 
 
 @Component({
@@ -9,24 +10,15 @@ import { Recipe } from '../recipe.model';
 })
 export class RecipeListComponent implements OnInit {
 
-  @Output() onRecipeClicked = new EventEmitter<Recipe>();
+  recipes: Recipe[];
+ 
+  constructor(private recipeService: RecipeService) { }
 
-  recipes: Recipe[] = [
-    new Recipe('A Test Recipe', 'This is simply a test',
-    'https://www.wholesomeyum.com/wp-content/uploads/2019/09/wholesomeyum-keto-chaffles-recipe-sweet-savory-5-ways-24.jpg'),
-    new Recipe('A Test Recipe', 'This is simply a test',
-    'https://www.wholesomeyum.com/wp-content/uploads/2019/09/wholesomeyum-keto-chaffles-recipe-sweet-savory-5-ways-24.jpg')
-  ];
-
-  constructor() { }
-
-
-  onRecipeSelected(selectedRecipe: Recipe){
-    debugger;
-    this.onRecipeClicked.emit(selectedRecipe);
-  }
 
   ngOnInit() {
+    debugger;
+    this.recipes = this.recipeService.getRecipes();
+    
   }
 
 }
