@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
-
+import {StoreModule} from '@ngrx/store';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { RecipesComponent } from './recipes/recipes.component';
@@ -22,6 +22,7 @@ import { DataStorageService } from './shared/data-storage.service';
 import { RecipesResovlerService } from './recipes/recipes-resolver.service';
 import { LoadingSpinner } from './shared/loading-spinner/loading-spinner.component';
 import { AuthInterceptorService } from './auth/auth.interceptor.service';
+import { shoppingListReducer } from './shopping-list/shopping-list-reducer';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { AuthInterceptorService } from './auth/auth.interceptor.service';
     FormsModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    StoreModule.forRoot({ shoppingList: shoppingListReducer})
 
   ],
   providers: [ShoppingListService, RecipeService, DataStorageService,RecipesResovlerService,
