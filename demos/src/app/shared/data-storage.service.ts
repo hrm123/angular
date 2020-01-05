@@ -3,15 +3,27 @@ import { HttpClient } from "@angular/common/http";
 import { Recipe } from "../recipes/recipe.model";
 import { RecipeService } from "../recipes/recipe.service";
 import {map, tap} from 'rxjs/operators';
+import { AuthService } from "../auth/auth.service";
+import { Subscriber, Subscription } from "rxjs";
+import { User } from "../auth/user.model";
 
 @Injectable({providedIn: 'root'})
 export class DataStorageService{
     constructor( private http: HttpClient,
-        private recipeService: RecipeService) {}
+        private recipeService: RecipeService,
+        private authSvc : AuthService) {
+            this.authSubs = authSvc.user.subscribe(usr => this.user = usr);
+        }
+
+
+    user: User;
+    authSubs : Subscription;
+
 
     storeRecipes(){
         const recipes = this.recipeService.getRecipes();
-        this.http.put('https://ngdemos-f6fae.firebaseio.com/recipes.json', recipes)
+        this.http.put('https://ngdemos-f6fae.firebaseio.com?auth=' + 
+        this.user.token, recipes)
         .subscribe(
             (res) => console.log(res)
         );
@@ -19,7 +31,9 @@ export class DataStorageService{
 
     
     fetchRecipes(){
-        return this.http.get<Recipe[]>('https://ngdemos-f6fae.firebaseio.com/recipes.json')
+        return this.http.get<Recipe[]>(
+            'https://ngdemos-f6fae.firebaseio.com/recipes.json?auth='+
+        this.user.token)
         .pipe(map(recipes => {
             return recipes.map(recp => {
                 return {

@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { throwIfEmpty, catchError } from "rxjs/operators";
-import { throwError } from "rxjs";
+import { throwIfEmpty, catchError, tap } from "rxjs/operators";
+import { throwError, Subject } from "rxjs";
+import { User } from "./user.model";
 
 export interface AuthResponseData{
     kind: string,
@@ -16,6 +17,9 @@ export interface AuthResponseData{
 @Injectable({providedIn: 'root'})
 export class AuthService{
 
+
+    user = new Subject<User>();
+
     constructor(private http: HttpClient) {
         
     }
@@ -25,12 +29,32 @@ export class AuthService{
         return this.http.post<AuthResponseData>(url,{
             email, password,returnSecureToken : true
         }).pipe(
-            catchError(this.handleError)
+            catchError(this.handleError), 
+            tap(res => {
+                console.log("auth response ~" + res)
+                this.handleAuth(res.email, res.localId,
+                    res.idToken, +res.expiresIn
+                    );
+            })
         );
+    }
+
+    private handleAuth(
+        email: string, 
+        userId: string,
+        token: string, 
+        expiresIn: number
+        ){
+        const  expirationDate =
+        new Date( new Date().getTime() +  expiresIn * 1000);
+       const user  = new User(email,userId, token, expirationDate);
+       
+       this.user.next(user);
     }
 
     private handleError(err: HttpErrorResponse){
         let errorMessage = "server error.";
+        console.log("error~" + err);
         if(!err.error || !err.error.error){
             return throwError(errorMessage);
         }
@@ -56,7 +80,12 @@ export class AuthService{
         return this.http.post<AuthResponseData>(url,{
             email, password,returnSecureToken : true
         }).pipe(
-            catchError(this.handleError)
-        );;
+            catchError(this.handleError), 
+            tap(res => {
+                this.handleAuth(res.email, res.localId,
+                    res.idToken, +res.expiresIn
+                    );
+            })
+        );
     }
 }

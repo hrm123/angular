@@ -3,6 +3,7 @@ import { NgForm } from "@angular/forms";
 import { AuthService, AuthResponseData } from "./auth.service";
 import { Subscriber, Observable } from "rxjs";
 import { ERROR_COMPONENT_TYPE } from "@angular/compiler";
+import { Router } from "@angular/router";
 
 @Component({
     selector: 'app-auth',
@@ -12,7 +13,8 @@ export class AuthComponent{
     isLoggedMode = true;
     isLoading = false;
     error : string = null;
-    constructor(private authService: AuthService) {
+    constructor(private authService: AuthService,
+        private router: Router) {
         
         
     }
@@ -22,6 +24,7 @@ export class AuthComponent{
 
     onSubmit(form: NgForm){
         // console.log(form.value);
+        debugger;
         if(!form.valid){
             return;
         }
@@ -40,8 +43,9 @@ export class AuthComponent{
 
         authObs.subscribe(
             resData => {
-                console.log(resData);
+                // console.log(resData);
                 this.isLoading = false;
+                this.router.navigate(['/recipes']);
             },
             errMessage => {
                 this.isLoading = false;
