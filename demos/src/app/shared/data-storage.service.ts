@@ -22,8 +22,8 @@ export class DataStorageService{
 
     storeRecipes(){
         const recipes = this.recipeService.getRecipes();
-        this.http.put('https://ngdemos-f6fae.firebaseio.com?auth=' + 
-        this.user.token, recipes)
+        // this.http.put('https://ngdemos-f6fae.firebaseio.com?auth=' +  this.user.token, recipes)
+        this.http.put('https://ngdemos-f6fae.firebaseio.com', recipes)
         .subscribe(
             (res) => console.log(res)
         );
@@ -31,9 +31,8 @@ export class DataStorageService{
 
     
     fetchRecipes(){
-        return this.http.get<Recipe[]>(
-            'https://ngdemos-f6fae.firebaseio.com/recipes.json?auth='+
-        this.user.token)
+        // return this.http.get<Recipe[]>('https://ngdemos-f6fae.firebaseio.com/recipes.json?auth='+ this.user.token)
+        return this.http.get<Recipe[]>('https://ngdemos-f6fae.firebaseio.com/recipes.json')
         .pipe(map(recipes => {
             return recipes.map(recp => {
                 return {
