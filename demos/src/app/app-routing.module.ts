@@ -7,10 +7,14 @@ import { RecipeDetailComponent } from "./recipes/recipe-detail/recipe-detail.com
 import { RecipeEditComponent } from "./recipes/recipe-edit/recipe-edit.component";
 import { RecipesResovlerService } from "./recipes/recipes-resolver.service";
 import { AuthComponent } from "./auth/auth.component";
+import { AuthGuardService } from "./auth/auth.gaurd";
 
 const appRoutes : Routes = [
-    {path: '', redirectTo : '/auth', pathMatch: "full"},
-    {path: 'recipes', component: RecipesComponent, children: [
+    {path: '', redirectTo : '/recipes', pathMatch: "full"},
+    {path: 'recipes',
+     component: RecipesComponent, 
+     canActivate: [AuthGuardService],
+     children: [
         {path: '', component: RecipeStartComponent, resolve: [RecipesResovlerService]},
         {path: "new", component: RecipeEditComponent},
             {
