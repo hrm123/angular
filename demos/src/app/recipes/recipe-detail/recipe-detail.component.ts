@@ -23,7 +23,6 @@ export class RecipeDetailComponent implements OnInit {
       (params: Params) =>{
         this.id = +params['id']; //+ just casts string to number
         this.recipe = this.recipeService.getRecipe(this.id);
-        debugger;
       }
       );
   }
@@ -39,6 +38,7 @@ export class RecipeDetailComponent implements OnInit {
 
   onDeleteRecipe(id : number){
     this.recipeService.deleteRecipe(id);
+    this.router.navigate(['/recipes']);
   }
 
 }

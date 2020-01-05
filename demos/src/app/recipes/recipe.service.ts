@@ -15,7 +15,9 @@ export class RecipeService{
         
     }
 
-    private recipes: Recipe[] = [
+    private recipes: Recipe[] = [];
+
+    private recipes1: Recipe[] = [
         new Recipe('A Test Recipe', 'This is simply a test',
         'https://www.wholesomeyum.com/wp-content/uploads/2019/09/wholesomeyum-keto-chaffles-recipe-sweet-savory-5-ways-24.jpg',
         [new Ingredient("lady finger",13)]),
@@ -50,6 +52,11 @@ export class RecipeService{
 
     public deleteRecipe(index: number){
         this.recipes.splice(index,1);
+        this.recipesChanged.next(this.recipes.slice());
+    }
+
+    public replaceRecipes(recipes: Recipe[]){
+        this.recipes = recipes;
         this.recipesChanged.next(this.recipes.slice());
     }
   
