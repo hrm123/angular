@@ -53,6 +53,21 @@ import { AuthInterceptorService } from './auth/auth.interceptor.service';
       multi: true
     }
    ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports:[
+    AppComponent,
+    HeaderComponent,
+    RecipesComponent,
+    RecipeListComponent,
+    RecipeDetailComponent,
+    RecipeItemComponent,
+    ShoppingListComponent,
+    ShoppingEditComponent,
+    DropdownDirective,
+    RecipeStartComponent,
+    RecipeEditComponent,
+    AuthComponent,
+    LoadingSpinner
+  ]
 })
 export class AppModule { }
