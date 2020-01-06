@@ -22,6 +22,8 @@ import { DataStorageService } from './shared/data-storage.service';
 import { RecipesResovlerService } from './recipes/recipes-resolver.service';
 import { LoadingSpinner } from './shared/loading-spinner/loading-spinner.component';
 import { AuthInterceptorService } from './auth/auth.interceptor.service';
+import { ModalDirective } from './shared/modal/modal.directive';
+import { ModalService } from './shared/modal/modal.service';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ import { AuthInterceptorService } from './auth/auth.interceptor.service';
     RecipeStartComponent,
     RecipeEditComponent,
     AuthComponent,
-    LoadingSpinner
+    LoadingSpinner,
+    ModalDirective
   ],
   imports: [
     BrowserModule,
@@ -47,7 +50,8 @@ import { AuthInterceptorService } from './auth/auth.interceptor.service';
     HttpClientModule
 
   ],
-  providers: [ShoppingListService, RecipeService, DataStorageService,RecipesResovlerService,
+  providers: [ShoppingListService, RecipeService, ModalService,
+     DataStorageService,RecipesResovlerService,
     {provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
       multi: true
