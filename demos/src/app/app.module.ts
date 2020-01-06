@@ -5,53 +5,58 @@ import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
-import { RecipesComponent } from './recipes/recipes.component';
-import { RecipeListComponent } from './recipes/recipe-list/recipe-list.component';
+//import { RecipesComponent } from './recipes/recipes.component';
+//import { RecipeListComponent } from './recipes/recipe-list/recipe-list.component';
 import { AuthComponent } from './auth/auth.component';
-import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.component';
-import { RecipeItemComponent } from './recipes/recipe-list/recipe-item/recipe-item.component';
+//import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.component';
+//import { RecipeItemComponent } from './recipes/recipe-list/recipe-item/recipe-item.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { ShoppingEditComponent } from './shopping-list/shopping-edit/shopping-edit.component';
 import { ShoppingListService } from './shopping-list/shopping-list.service';
-import { DropdownDirective } from './shared/dropdown.directive';
+//import { DropdownDirective } from './shared/dropdown.directive';
 import { AppRoutingModule } from './app-routing.module';
-import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.component';
-import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
+//import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.component';
+//import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
 import { RecipeService } from './recipes/recipe.service';
 import { DataStorageService } from './shared/data-storage.service';
-import { RecipesResovlerService } from './recipes/recipes-resolver.service';
-import { LoadingSpinner } from './shared/loading-spinner/loading-spinner.component';
+//import { RecipesResovlerService } from './recipes/recipes-resolver.service';
+//import { LoadingSpinner } from './shared/loading-spinner/loading-spinner.component';
 import { AuthInterceptorService } from './auth/auth.interceptor.service';
-import { ModalDirective } from './shared/modal/modal.directive';
-import { ModalService } from './shared/modal/modal.service';
+//import { ModalDirective } from './shared/modal/modal.directive';
+//import { ModalService } from './shared/modal/modal.service';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    RecipesComponent,
-    RecipeListComponent,
-    RecipeDetailComponent,
-    RecipeItemComponent,
+    //RecipesComponent,
+    //RecipeListComponent,
+    //RecipeDetailComponent,
+    //RecipeItemComponent,
     ShoppingListComponent,
     ShoppingEditComponent,
-    DropdownDirective,
-    RecipeStartComponent,
-    RecipeEditComponent,
+    //DropdownDirective,
+    //RecipeStartComponent,
+    //RecipeEditComponent,
     AuthComponent,
-    LoadingSpinner,
-    ModalDirective
+    //LoadingSpinner,
+    //ModalDirective
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    SharedModule
 
   ],
-  providers: [ShoppingListService, RecipeService, ModalService,
-     DataStorageService,RecipesResovlerService,
+  providers: [ShoppingListService, 
+    RecipeService, 
+    //ModalService,
+     DataStorageService,
+     //RecipesResovlerService,
     {provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
       multi: true
@@ -61,17 +66,16 @@ import { ModalService } from './shared/modal/modal.service';
   exports:[
     AppComponent,
     HeaderComponent,
-    RecipesComponent,
-    RecipeListComponent,
-    RecipeDetailComponent,
-    RecipeItemComponent,
+    //RecipesComponent,
+    //RecipeListComponent,
+    //RecipeDetailComponent,
+    //RecipeItemComponent,
     ShoppingListComponent,
     ShoppingEditComponent,
-    DropdownDirective,
-    RecipeStartComponent,
-    RecipeEditComponent,
-    AuthComponent,
-    LoadingSpinner
+    //DropdownDirective,
+    //RecipeStartComponent,
+    //RecipeEditComponent,
+    AuthComponent
   ]
 })
 export class AppModule { }

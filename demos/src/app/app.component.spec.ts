@@ -22,6 +22,8 @@ import { RecipeService } from './recipes/recipe.service';
 import { DataStorageService } from './shared/data-storage.service';
 import { RecipesResovlerService } from './recipes/recipes-resolver.service';
 import { AuthInterceptorService } from './auth/auth.interceptor.service';
+import { ModalDirective } from './shared/modal/modal.directive';
+import { ModalService } from './shared/modal/modal.service';
 
 
 describe('AppComponent', () => {
@@ -40,7 +42,8 @@ describe('AppComponent', () => {
     RecipeStartComponent,
     RecipeEditComponent,
     AuthComponent,
-    LoadingSpinner
+    LoadingSpinner,
+    ModalDirective
       ],
       imports: [
         BrowserModule,
@@ -52,6 +55,7 @@ describe('AppComponent', () => {
       ],
       providers: [ShoppingListService, RecipeService,
          DataStorageService,RecipesResovlerService,
+         ModalService,
         {provide: HTTP_INTERCEPTORS,
           useClass: AuthInterceptorService,
           multi: true
