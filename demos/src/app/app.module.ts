@@ -25,6 +25,7 @@ import { AuthInterceptorService } from './auth/auth.interceptor.service';
 //import { ModalDirective } from './shared/modal/modal.directive';
 //import { ModalService } from './shared/modal/modal.service';
 import { SharedModule } from './shared/shared.module';
+import {BrowserAnimationsModule} from'@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { SharedModule } from './shared/shared.module';
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    SharedModule
+    SharedModule,
+    BrowserAnimationsModule
 
   ],
   providers: [ShoppingListService, 

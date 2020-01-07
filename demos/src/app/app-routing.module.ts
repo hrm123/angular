@@ -10,9 +10,21 @@ import { AuthComponent } from "./auth/auth.component";
 //import { AuthGuardService } from "./auth/auth.gaurd";
 
 const appRoutes : Routes = [
-    {path: '', redirectTo : '/recipes', pathMatch: "full"},
-    {path: 'recipes', loadChildren:'./recipes/recipes.module#RecipesModule'},
-    {path: 'shopping-list', component: ShoppingListComponent},
+    {path: '', redirectTo : '/recipes',
+     pathMatch: "full" ,
+     data: {
+        animation: 'routeAnimations'
+     }
+    },
+    {path: 'recipes',
+    data: {
+       animation: 'recipes'
+    },
+     loadChildren:'./recipes/recipes.module#RecipesModule'},
+    {path: 'shopping-list',
+    data: {
+       animation: 'shopping-list'
+    }, component: ShoppingListComponent},
     {path: 'auth', component: AuthComponent}
 ];
 

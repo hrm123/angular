@@ -1,19 +1,40 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute , Params, Router} from '@angular/router';
-import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
+import { FormGroup, FormControl,
+   FormArray, Validators } from '@angular/forms';
 import { RecipeService } from '../recipe.service';
 import { Ingredient } from 'src/app/shared/ingredient';
 import { Recipe } from '../recipe.model';
+import {trigger, state, style, transition, animate} from '@angular/animations';
 
 @Component({
   selector: 'app-recipe-edit',
   templateUrl: './recipe-edit.component.html',
-  styleUrls: ['./recipe-edit.component.css']
+  styleUrls: ['./recipe-edit.component.css'],
+  animations:[
+    trigger('fadeInOut', [
+      state('void', style({
+        opacity: 0
+      })),
+      transition('void <=> *', animate(1000)),
+    ]),
+    trigger('EnterLeave', [
+      state('flyIn', style({ transform: 'translateX(0)' })),
+      transition(':enter', [
+        style({ transform: 'translateX(-100%)' }),
+        animate('0.5s 300ms ease-in')
+      ]),
+      transition(':leave', [
+        animate('0.3s ease-out', style({ transform: 'translateX(100%)' }))
+      ])
+    ])
+  ]
 })
 export class RecipeEditComponent implements OnInit {
   id : number;
   editMode = false;
   recipeForm : FormGroup;
+  stateAnima = "placing"
   constructor(private route :ActivatedRoute, private recipeService: RecipeService,
     private router: Router
     ) { }
