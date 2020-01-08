@@ -22,7 +22,6 @@ constructor(private authSvc: AuthService ) {}
   }
 
   prepareRoute(outlet: RouterOutlet) {
-    debugger;
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
   }
   
