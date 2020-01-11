@@ -1,68 +1,67 @@
-import { Recipe } from "./recipe.model";
-import { EventEmitter, Injectable } from "@angular/core";
-import { Ingredient } from "../shared/ingredient";
-import { ShoppingListService } from "../shopping-list/shopping-list.service";
-import { Subject } from "rxjs";
-import {Store} from '@ngrx/store';
-import * as SLA from "../shopping-list/store/shopping-list.actions";
-import * as fromShoppingList from "../shopping-list/store/shopping-list-reducer";
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
+import { Store } from '@ngrx/store';
 
+import { Recipe } from './recipe.model';
+import { Ingredient } from '../shared/ingredient.model';
+import * as ShoppingListActions from '../shopping-list/store/shopping-list.actions';
+import * as fromApp from '../store/app-reducer';
 
 @Injectable()
-export class RecipeService{
+export class RecipeService {
+  recipesChanged = new Subject<Recipe[]>();
 
-    recipesChanged = new Subject<Recipe[]>();
-  
-    constructor(private slService: ShoppingListService,
-        private store: Store<fromShoppingList.AppState>) {
-        
-        
-    }
+  // private recipes: Recipe[] = [
+  //   new Recipe(
+  //     'Tasty Schnitzel',
+  //     'A super-tasty Schnitzel - just awesome!',
+  //     'https://upload.wikimedia.org/wikipedia/commons/7/72/Schnitzel.JPG',
+  //     [new Ingredient('Meat', 1), new Ingredient('French Fries', 20)]
+  //   ),
+  //   new Recipe(
+  //     'Big Fat Burger',
+  //     'What else you need to say?',
+  //     'https://upload.wikimedia.org/wikipedia/commons/b/be/Burger_King_Angus_Bacon_%26_Cheese_Steak_Burger.jpg',
+  //     [new Ingredient('Buns', 2), new Ingredient('Meat', 1)]
+  //   )
+  // ];
+  private recipes: Recipe[] = [];
 
-    private recipes: Recipe[] = [];
+  constructor(
+    private store: Store<fromApp.AppState>
+  ) {}
 
-    private recipes1: Recipe[] = [
-        new Recipe('A Test Recipe', 'This is simply a test',
-        'https://www.wholesomeyum.com/wp-content/uploads/2019/09/wholesomeyum-keto-chaffles-recipe-sweet-savory-5-ways-24.jpg',
-        [new Ingredient("lady finger",13)]),
-        new Recipe('A Test Recipe', 'This is simply a test',
-        'https://www.wholesomeyum.com/wp-content/uploads/2019/09/wholesomeyum-keto-chaffles-recipe-sweet-savory-5-ways-24.jpg',
-        [new Ingredient("apples",10), new Ingredient("fries",20)])
-      ];
+  setRecipes(recipes: Recipe[]) {
+    this.recipes = recipes;
+    this.recipesChanged.next(this.recipes.slice());
+  }
 
-      recipeSelected = new EventEmitter<Recipe>();
+  getRecipes() {
+    debugger;
+    return this.recipes.slice();
+  }
 
-      public getRecipes(){
-          return this.recipes.slice(); // returns copy of an array not orgiinal array in this service
-      }
+  getRecipe(index: number) {
+    return this.recipes[index];
+  }
 
-      public addIngredientsToShoppingList(ingredients: Ingredient[]){
-         //this.slService.addIngredients(ingredients);
-         this.store.dispatch(new SLA.AddIngredientsAction(ingredients))
-     }
+  addIngredientsToShoppingList(ingredients: Ingredient[]) {
+    // this.slService.addIngredients(ingredients);
+    this.store.dispatch(new ShoppingListActions.AddIngredientsAction(ingredients));
+  }
 
-     public getRecipe(id: number){
-        return this.recipes.slice()[id];
-   }
+  addRecipe(recipe: Recipe) {
+    this.recipes.push(recipe);
+    this.recipesChanged.next(this.recipes.slice());
+  }
 
-   public addRecipe(recipe: Recipe){
-        this.recipes.push(recipe);
-        this.recipesChanged.next(this.recipes.slice());
-    }
- 
-    public updateRecipe(index: number, recipe: Recipe){
-        this.recipes[index] = recipe;
-        this.recipesChanged.next(this.recipes.slice());
-    }
+  updateRecipe(index: number, newRecipe: Recipe) {
+    this.recipes[index] = newRecipe;
+    this.recipesChanged.next(this.recipes.slice());
+  }
 
-    public deleteRecipe(index: number){
-        this.recipes.splice(index,1);
-        this.recipesChanged.next(this.recipes.slice());
-    }
-
-    public replaceRecipes(recipes: Recipe[]){
-        this.recipes = recipes;
-        this.recipesChanged.next(this.recipes.slice());
-    }
-  
+  deleteRecipe(index: number) {
+    this.recipes.splice(index, 1);
+    this.recipesChanged.next(this.recipes.slice());
+  }
 }

@@ -5,27 +5,13 @@ import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {StoreModule, ActionReducer } from '@ngrx/store';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
-import { RecipesComponent } from './recipes/recipes.component';
-import { RecipeListComponent } from './recipes/recipe-list/recipe-list.component';
-import { AuthComponent } from './auth/auth.component';
-import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.component';
-import { RecipeItemComponent } from './recipes/recipe-list/recipe-item/recipe-item.component';
-import { ShoppingListComponent } from './shopping-list/shopping-list.component';
-import { ShoppingEditComponent } from './shopping-list/shopping-edit/shopping-edit.component';
-import { ShoppingListService } from './shopping-list/shopping-list.service';
-import { DropdownDirective } from './shared/dropdown.directive';
 import { AppRoutingModule } from './app-routing.module';
-import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.component';
-import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
-import { RecipeService } from './recipes/recipe.service';
-import { DataStorageService } from './shared/data-storage.service';
-import { RecipesResovlerService } from './recipes/recipes-resolver.service';
-import { LoadingSpinner } from './shared/loading-spinner/loading-spinner.component';
-import { AuthInterceptorService } from './auth/auth.interceptor.service';
-import { shoppingListReducer, AppState } from './shopping-list/store/shopping-list-reducer';
 import { storeLogger } from 'ngrx-store-logger';
 import { environment } from '../environments/environment';
-
+import * as fromApp  from './store/app-reducer';
+import { AppState } from './store/app-reducer';
+import { CoreModule } from './core.module';
+import { SharedModule } from './shared/shared.module';
 
 export function logger(reducer: ActionReducer<AppState>): any {
   // default, no options
@@ -35,36 +21,26 @@ export function logger(reducer: ActionReducer<AppState>): any {
 export const metaReducers = environment.production ? [] : [logger];
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    RecipesComponent,
-    RecipeListComponent,
-    RecipeDetailComponent,
-    RecipeItemComponent,
-    ShoppingListComponent,
-    ShoppingEditComponent,
-    DropdownDirective,
-    RecipeStartComponent,
-    RecipeEditComponent,
-    AuthComponent,
-    LoadingSpinner
-  ],
+  declarations: [AppComponent, HeaderComponent],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    StoreModule.forRoot({ shoppingList: shoppingListReducer} as any,  {metaReducers})
+    StoreModule.forRoot(fromApp.appReducer,  {metaReducers}),
+    SharedModule,
+    CoreModule
 
   ],
-  providers: [ShoppingListService, RecipeService, DataStorageService,RecipesResovlerService,
+  /*
+  providers: [ RecipeService, DataStorageService,RecipesResolverService,
     {provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
       multi: true
     }
    ],
+   */
   bootstrap: [AppComponent]
 })
 export class AppModule { }

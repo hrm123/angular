@@ -4,7 +4,7 @@ import { Recipe } from "./recipe.model";
 import { DataStorageService } from "../shared/data-storage.service";
 
 @Injectable({ providedIn: 'root'})
-export class RecipesResovlerService implements Resolve<Recipe[]>{
+export class RecipesResolverService implements Resolve<Recipe[]>{
 
     constructor(private dataService : DataStorageService) {
         
@@ -12,7 +12,9 @@ export class RecipesResovlerService implements Resolve<Recipe[]>{
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot){
-        return this.dataService.fetchRecipes();
+        const data =  this.dataService.fetchRecipes();
+        debugger;
+        return data;
     }
 
 }

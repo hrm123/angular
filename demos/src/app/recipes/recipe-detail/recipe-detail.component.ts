@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Recipe } from '../recipe.model';
 import { RecipeService } from '../recipe.service';
-import { Ingredient } from 'src/app/shared/ingredient';
+import { Ingredient  } from 'src/app/shared/ingredient.model';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 @Component({
@@ -21,6 +21,7 @@ export class RecipeDetailComponent implements OnInit {
   ngOnInit() {
     this.currentRoute.params.subscribe(
       (params: Params) =>{
+        debugger;
         this.id = +params['id']; //+ just casts string to number
         this.recipe = this.recipeService.getRecipe(this.id);
       }

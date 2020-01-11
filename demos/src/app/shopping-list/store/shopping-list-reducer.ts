@@ -1,20 +1,14 @@
 import {Action} from '@ngrx/store';
-import { Ingredient } from "../../shared/ingredient";
+import { Ingredient } from 'src/app/shared/ingredient.model';
 import * as ShoppingListActions from './shopping-list.actions';
 
-
-
-export interface AppState {
-    shoppingList : SLState
-}
-
-export interface SLState {
+export interface State {
     ingredients :Ingredient[] ,
       editedIngredient : Ingredient,
       editedIngredientIndex  : number
 }
 
-const initialState : SLState  = {
+const initialState : State  = {
      ingredients : [
     new Ingredient("Apples",5),
     new Ingredient("Tomatoes",10)
@@ -61,7 +55,7 @@ export function shoppingListReducer(
                 }
                 break;
             case ShoppingListActions.START_INGREDIENT_EDIT:
-                debugger;
+
                 return {
                     ...state,
                     editedIngredientIndex : action.payload,

@@ -24,11 +24,11 @@ export class AuthComponent{
 
     onSubmit(form: NgForm){
         // console.log(form.value);
-        debugger;
+
         if(!form.valid){
             return;
         }
-
+debugger;
         const email = form.value.email;
         const password = form.value.password;
 

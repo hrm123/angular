@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import { Ingredient } from '../../shared/ingredient';
+import { Ingredient } from 'src/app/shared/ingredient.model';
 
 
 export interface SlAction extends Action{

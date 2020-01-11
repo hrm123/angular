@@ -4,6 +4,10 @@ import { throwIfEmpty, catchError, tap } from "rxjs/operators";
 import { throwError, Subject, BehaviorSubject } from "rxjs";
 import { User } from "./user.model";
 import { Router } from "@angular/router";
+import {Store} from '@ngrx/store';
+import * as fromApp from "../store/app-reducer";
+import * as authActions from "./store/auth.actions";
+
 
 export interface AuthResponseData{
     kind: string,
@@ -21,10 +25,11 @@ export class AuthService{
     dummyUser: User = new User("sds","sdsdd","sadsa",null);
 
     private tokenExpirationTimer: any;
-    user = new BehaviorSubject<User>(this.dummyUser);
+    // user = new BehaviorSubject<User>(this.dummyUser);
 
     constructor(private http: HttpClient,
-        private router: Router) {
+        private router: Router,
+        private store : Store<fromApp.AppState>) {
         
     }
 
@@ -64,7 +69,8 @@ export class AuthService{
             new Date(userData._tokenExpirationDate)
             );
         if(loadedUser.token){
-            this.user.next(loadedUser);
+            // this.user.next(loadedUser);
+            this.store.dispatch(new authActions.SignIn(loadedUser));
             const expirationDuration = new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
             this.autoLogout(expirationDuration);
         } else{
@@ -74,7 +80,8 @@ export class AuthService{
     }
 
     logout(){
-        this.user.next(this.dummyUser);
+        // this.user.next(this.dummyUser);
+        this.store.dispatch(new authActions.SignOut(this.dummyUser));
         localStorage.setItem('userData', JSON.stringify(JSON.stringify( this.dummyUser)));
         if(this.tokenExpirationTimer ){
             clearTimeout(this.tokenExpirationTimer);
@@ -93,7 +100,8 @@ export class AuthService{
         new Date( new Date().getTime() +  expiresIn * 1000);
        const user  = new User(email,userId, token, expirationDate);
        
-       this.user.next(user);
+       // this.user.next(user);
+       this.store.dispatch(new authActions.SignIn(user));
        this.autoLogout(expiresIn * 1000);
        localStorage.setItem('userData', JSON.stringify( user));
     }
@@ -122,6 +130,7 @@ export class AuthService{
     }
 
     login(email : string, password: string){
+        debugger;
         const url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB1z4vjGfZ2e0klKahf2SQAp0B3tRZpMXg';
         return this.http.post<AuthResponseData>(url,{
             email, password,returnSecureToken : true
