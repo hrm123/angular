@@ -35,8 +35,13 @@ export function authReducer(state = initialState, action : authActions.AuthActio
                     loading: true
                 };
             break;
+            case authActions.CLEAR_ERROR:
+                return {
+                    ...state,
+                    authError : null
+                };
+                break;
             case authActions.SIGNIN_FAIL:
-                debugger;
                 const user1 = action.payload["user"] as User;
                 return {
                     ...state,
@@ -46,11 +51,17 @@ export function authReducer(state = initialState, action : authActions.AuthActio
                 };
             break;
             case authActions.SIGNUP_START:
-                break;
-            case authActions.SIGNOUT:
                 return {
                     ...state,
-                    user: null,
+                    authError: null,
+                    loading: true
+                };
+                break;
+            case authActions.SIGNOUT:
+                const dummyUser: User = new User("sds","sdsdd","sadsa",null);
+                return {
+                    ...state,
+                    user: dummyUser,
                     authError: null
                 };
                 break;

@@ -5,6 +5,8 @@ export const SIGNIN_START = "SIGNIN_START";
 export const SIGNOUT = "SIGNOUT"
 export const SIGNIN_FAIL = "SIGNIN_FAIL";
 export const SIGNUP_START = "SIGNUP_START";
+export const CLEAR_ERROR = "CLEAR_ERROR";
+export const AUTO_SIGNIN = "AUTO_SIGNIN";
 /*
 export interface User {
     email: string;
@@ -25,6 +27,19 @@ export class SignIn implements AuthAction {
     readonly type = SIGNIN;
 
     constructor(public payload: User) {}
+}
+
+
+
+export class AutoSignIn implements AuthAction {
+    readonly type = AUTO_SIGNIN;
+
+}
+
+
+export class ClearError implements AuthAction {
+    readonly type = CLEAR_ERROR;
+
 }
 
 
@@ -54,4 +69,4 @@ export class SignOut implements AuthAction {
     constructor(public payload: User) {}
 }
 
-export type authActions = SignIn | SignOut | SignInFail | SignInStart | SignUpStart;
+export type authActions = SignIn | SignOut | SignInFail | SignInStart | SignUpStart | ClearError | AutoSignIn;

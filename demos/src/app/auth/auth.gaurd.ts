@@ -24,7 +24,7 @@ export class AuthGuardService implements CanActivate{
                  return authState.user;
              }),
              map(user => { 
-             const isAuth =  user.email !== "sds";
+             const isAuth =  user && user.email !== "sds";
              if(isAuth){
                  return true;
              }

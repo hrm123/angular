@@ -7,6 +7,7 @@ import { User } from "../auth/user.model";
 import { map, tap, take } from "rxjs/operators";
 import { AppState } from "../store/app-reducer";
 import {Store} from '@ngrx/store';
+import * as authActions from '../auth/store/auth.actions';
 
 
 @Component({
@@ -22,6 +23,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
         userSub: Subscription;
         user: User;
         isAuthenticated = false;
+        dummyUser: User = new User("sds","sdsdd","sadsa",null);
 
         ngOnInit(){
             this.userSub = this.store.select('auth').subscribe( authState => {
@@ -31,7 +33,8 @@ export class HeaderComponent implements OnInit, OnDestroy{
         }
 
         onLogout(){
-            this.authSvc.logout();
+            // this.authSvc.logout();
+            this.store.dispatch(new authActions.SignOut(this.dummyUser))
         }
 
         ngOnDestroy(){

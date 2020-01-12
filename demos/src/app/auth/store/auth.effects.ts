@@ -1,20 +1,30 @@
 import {Actions, ofType, Effect}  from '@ngrx/effects'
-import {switchMap, tap, catchError, map}  from 'rxjs/operators'
+import {switchMap, tap, catchError, map, take}  from 'rxjs/operators'
 import * as authActions from './auth.actions';
-import { AuthResponseData } from '../auth.service';
 import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 import { User } from '../user.model';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 
+export interface AuthResponseData {
+    kind: string;
+    idToken: string;
+    email: string;
+    refreshToken: string;
+    expiresIn: string;
+    localId: string;
+    registered?: boolean;
+  }
 
 const handleAuthSuccess = resData =>{
     const  expirationDate =
     new Date( new Date().getTime() +  +resData.expiresIn * 1000);
    const user  = new User(resData.email, resData.localId, resData.idToken, expirationDate);
-
+   localStorage.setItem('userData', JSON.stringify(JSON.stringify( user)));
+   debugger;
     return new authActions.SignIn(user); // return the SignIn action taht wil be dispatched by the ngrx effects system
 }
 
@@ -59,19 +69,58 @@ export class AuthEffects {
                 email: authData.payload.email, 
                 password: authData.payload.password,
                 returnSecureToken : true
-            }).pipe(map(resData => handleAuthSuccess(resData)),
+            }).pipe(
+                take(1),
+                tap(resData => {
+                    this.authService.setLogoutTimer(+resData.expiresIn * 1000);
+                })
+                ,map(resData => {
+                debugger;
+                 return handleAuthSuccess(resData);
+            }),
             catchError( err => handleAuthFailure(err)) 
             );
         })); // ngrx effects will subsribe so no need to subsscribe here
 
     @Effect({dispatch : false}) // this effect does nto dispatch a new action at the end
-    authSuccess = this.actions$.pipe(
-        ofType(authActions.SIGNIN),
+    autoSignin = this.actions$.pipe(
+        ofType(authActions.AUTO_SIGNIN),
+        map(()=>{
+            const userData : { email: string, id: string, _token: string, _tokenExpirationDate: string } = JSON.parse(localStorage.getItem('userData'));
+            if(!userData || userData.email === "sds"){
+                return {type: 'DUMMY'}; 
+            }
+
+            const loadedUser = new User(userData.email,
+                userData.id,
+                userData._token,
+                new Date(userData._tokenExpirationDate)
+                );
+            if(loadedUser.token){
+                // this.user.next(loadedUser);
+                debugger;
+                const expirationDuration =
+                    new Date(userData._tokenExpirationDate).getTime() -
+                    new Date().getTime();
+                this.authService.setLogoutTimer(expirationDuration);
+                return new authActions.SignIn(loadedUser);
+                // const expirationDuration = new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
+                // this.autoLogout(expirationDuration);
+            } else{
+                return {type: 'DUMMY'}; // the user has to auth again
+            }
+            })
+    );
+
+
+    @Effect({dispatch : false}) // this effect does nto dispatch a new action at the end
+    authRedirect = this.actions$.pipe(
+        ofType(  authActions.SIGNIN),
         tap(()=>{
+            debugger;
             this.router.navigate(['/']);
         })
     );
-
 
     authSignup = this.actions$.pipe(
         ofType(authActions.SIGNUP_START),
@@ -88,7 +137,20 @@ export class AuthEffects {
 
     }));
 
+    @Effect({dispatch : false}) 
+    authSignout = this.actions$.pipe(
+        ofType(authActions.SIGNOUT),
+        tap(() => {
+            this.authService.clearLogoutTimer();
+            const dummyUser: User = new User("sds","sdsdd","sadsa",null);
+            debugger;
+            localStorage.setItem('userData', JSON.stringify(JSON.stringify( dummyUser)));
+            this.router.navigate(['/auth']);
+        })
+    );
 
-    constructor(private actions$: Actions, private http: HttpClient, private router: Router) {}
+
+    constructor(private actions$: Actions, private http: HttpClient, private router: Router,
+        private authService: AuthService) {}
 
 }

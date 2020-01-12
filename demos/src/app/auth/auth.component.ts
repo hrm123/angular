@@ -1,6 +1,6 @@
 import { Component, OnInit, ComponentFactoryResolver, ViewChild, OnDestroy } from "@angular/core";
 import { NgForm } from "@angular/forms";
-import { AuthService, AuthResponseData } from "./auth.service";
+import { AuthService  } from "./auth.service";
 import { Subscriber, Observable, Subscription } from "rxjs";
 import { ERROR_COMPONENT_TYPE } from "@angular/compiler";
 import { Router } from "@angular/router";
@@ -19,6 +19,7 @@ export class AuthComponent implements OnInit, OnDestroy{
     isLoading = false;
     error : string = null;
     private closeSub: Subscription;
+    private storeSub: Subscription;
     
     @ViewChild(PlaceholderDirective, { static: false }) alertHost: PlaceholderDirective;
     
@@ -30,10 +31,13 @@ export class AuthComponent implements OnInit, OnDestroy{
         if(this.closeSub){
             this.closeSub.unsubscribe();
         }
+        if(this.storeSub){
+            this.storeSub.unsubscribe();
+        }
     }
        
     ngOnInit(){
-        this.store.select('auth').subscribe(authState => {
+        this.storeSub = this.store.select('auth').subscribe(authState => {
             this.isLoading = authState.loading;
             this.error = authState.authError;
             debugger;
@@ -43,6 +47,11 @@ export class AuthComponent implements OnInit, OnDestroy{
             }
         });
         
+    }
+
+    onHandleError(){
+        debugger;
+        this.store.dispatch(new AuthActions.ClearError());
     }
 
     showErrorAlert(message: string) {
@@ -78,6 +87,7 @@ export class AuthComponent implements OnInit, OnDestroy{
 
         this.isLoading = true;
         if(this.isLoggedMode){
+            debugger;
             // authObs = this.authService.login(email, password);
             this.store.dispatch(new AuthActions.SignInStart({email, password}));
         } else{
