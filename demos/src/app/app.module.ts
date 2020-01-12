@@ -12,6 +12,8 @@ import * as fromApp  from './store/app-reducer';
 import { AppState } from './store/app-reducer';
 import { CoreModule } from './core.module';
 import { SharedModule } from './shared/shared.module';
+import {EffectsModule} from '@ngrx/effects';
+import { AuthEffects } from './auth/store/auth.effects';
 
 export function logger(reducer: ActionReducer<AppState>): any {
   // default, no options
@@ -30,7 +32,8 @@ export const metaReducers = environment.production ? [] : [logger];
     HttpClientModule,
     StoreModule.forRoot(fromApp.appReducer,  {metaReducers}),
     SharedModule,
-    CoreModule
+    CoreModule,
+    EffectsModule.forRoot([AuthEffects])
 
   ],
   /*

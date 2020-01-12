@@ -1,6 +1,7 @@
 import {Action} from '@ngrx/store';
 import { User } from '../user.model';
 export const SIGNIN = "SIGNIN";
+export const SIGNIN_START = "SIGNIN_START";
 export const SIGNOUT = "SIGNOUT"
 
 /*
@@ -15,7 +16,7 @@ export interface User {
 
 export interface AuthAction extends Action {
     type: string;
-    payload?: User
+    payload?: User |  {email: string, password: string}
 
 }
 
@@ -23,6 +24,13 @@ export class SignIn implements AuthAction {
     readonly type = SIGNIN;
 
     constructor(public payload: User) {}
+}
+
+
+export class SignInStart implements AuthAction {
+    readonly type = SIGNIN_START;
+
+    constructor(public payload: {email: string, password: string}) {}
 }
 
 

@@ -4,6 +4,9 @@ import { AuthService, AuthResponseData } from "./auth.service";
 import { Subscriber, Observable } from "rxjs";
 import { ERROR_COMPONENT_TYPE } from "@angular/compiler";
 import { Router } from "@angular/router";
+import { Store } from "@ngrx/store";
+import * as fromApp from "../store/app-reducer";
+import * as AuthActions from "./store/auth.actions";
 
 @Component({
     selector: 'app-auth',
@@ -14,10 +17,10 @@ export class AuthComponent{
     isLoading = false;
     error : string = null;
     constructor(private authService: AuthService,
-        private router: Router) {
+        private router: Router, private store : Store<fromApp.AppState>) {}
         
         
-    }
+    
     onToggleMode(){
         this.isLoggedMode = !this.isLoggedMode;
     }
@@ -28,7 +31,7 @@ export class AuthComponent{
         if(!form.valid){
             return;
         }
-debugger;
+
         const email = form.value.email;
         const password = form.value.password;
 
@@ -36,7 +39,8 @@ debugger;
 
         this.isLoading = true;
         if(this.isLoggedMode){
-            authObs = this.authService.login(email, password);
+            // authObs = this.authService.login(email, password);
+            this.store.dispatch(new AuthActions.SignInStart({email, password}));
         } else{
             authObs = this.authService.signUp(email, password);
         }
