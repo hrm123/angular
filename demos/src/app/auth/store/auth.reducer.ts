@@ -21,6 +21,7 @@ export function authReducer(state = initialState, action : authActions.AuthActio
     switch(action.type){
             case authActions.SIGNIN:
                 const user = action.payload as User;
+                debugger;
                 return {
                     ...state,
                     user,

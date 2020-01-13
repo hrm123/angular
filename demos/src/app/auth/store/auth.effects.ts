@@ -24,6 +24,7 @@ const handleAuthSuccess = resData =>{
     new Date( new Date().getTime() +  +resData.expiresIn * 1000);
    const user  = new User(resData.email, resData.localId, resData.idToken, expirationDate);
    localStorage.setItem('userData', JSON.stringify(JSON.stringify( user)));
+   user._redirectUrl = ['/'];
     return new authActions.SignIn(user); // return the SignIn action taht wil be dispatched by the ngrx effects system
 }
 
@@ -80,11 +81,12 @@ export class AuthEffects {
             );
         })); // ngrx effects will subsribe so no need to subsscribe here
 
-    @Effect({dispatch : false}) // this effect does nto dispatch a new action at the end
+    @Effect()
     autoSignin = this.actions$.pipe(
         ofType(authActions.AUTO_SIGNIN),
         map(()=>{
-            const userData : { email: string, id: string, _token: string, _tokenExpirationDate: string } = JSON.parse(localStorage.getItem('userData'));
+            debugger;
+            const userData : { email: string, id: string, _token: string, _tokenExpirationDate: string } = JSON.parse(JSON.parse(localStorage.getItem('userData')));
             if(!userData || userData.email === "sds"){
                 return {type: 'DUMMY'}; 
             }
@@ -100,6 +102,7 @@ export class AuthEffects {
                     new Date(userData._tokenExpirationDate).getTime() -
                     new Date().getTime();
                 this.authService.setLogoutTimer(expirationDuration);
+                loadedUser._redirectUrl = null;  // we dont want to redirect upon auto sigin
                 return new authActions.SignIn(loadedUser);
                 // const expirationDuration = new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
                 // this.autoLogout(expirationDuration);
@@ -113,8 +116,12 @@ export class AuthEffects {
     @Effect({dispatch : false}) // this effect does nto dispatch a new action at the end
     authRedirect = this.actions$.pipe(
         ofType(  authActions.SIGNIN),
-        tap(()=>{
-            this.router.navigate(['/']);
+        tap((authData : authActions.SignIn)=>{
+            const redirectUrl = authData.payload._redirectUrl;
+            debugger;
+            if(redirectUrl){
+                this.router.navigate(redirectUrl);
+            }
         })
     );
 

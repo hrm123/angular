@@ -8,7 +8,7 @@ import { map, tap, take } from "rxjs/operators";
 import { AppState } from "../store/app-reducer";
 import {Store} from '@ngrx/store';
 import * as authActions from '../auth/store/auth.actions';
-
+import * as recipesActions from '../recipes/store/recipe.actions';
 
 @Component({
     selector:'app-header',
@@ -47,6 +47,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
         }
 
         onFetchData(){
+            this.store.dispatch(new recipesActions.FetchRecipes());
             this.dataService.fetchRecipes();
         }
 }

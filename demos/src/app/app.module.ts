@@ -15,6 +15,7 @@ import { SharedModule } from './shared/shared.module';
 import {EffectsModule} from '@ngrx/effects';
 import { AuthEffects } from './auth/store/auth.effects';
 import {StoreRouterConnectingModule} from '@ngrx/router-store';
+import { RecipeEffects } from './recipes/store/recipe.effects';
 
 export function logger(reducer: ActionReducer<AppState>): any {
   // default, no options
@@ -34,17 +35,9 @@ export const metaReducers = environment.production ? [] : [logger];
     StoreModule.forRoot(fromApp.appReducer,  {metaReducers}),
     SharedModule,
     CoreModule,
-    EffectsModule.forRoot([AuthEffects]),
+    EffectsModule.forRoot([AuthEffects, RecipeEffects]),
     StoreRouterConnectingModule.forRoot()
   ],
-  /*
-  providers: [ RecipeService, DataStorageService,RecipesResolverService,
-    {provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptorService,
-      multi: true
-    }
-   ],
-   */
   bootstrap: [AppComponent]
 })
 export class AppModule { }

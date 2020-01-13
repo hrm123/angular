@@ -26,7 +26,7 @@ export interface AuthAction extends Action {
 export class SignIn implements AuthAction {
     readonly type = SIGNIN;
 
-    constructor(public payload: User) {}
+    constructor(public payload:  User) {}
 }
 
 
