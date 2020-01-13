@@ -40,9 +40,7 @@ export class AuthComponent implements OnInit, OnDestroy{
         this.storeSub = this.store.select('auth').subscribe(authState => {
             this.isLoading = authState.loading;
             this.error = authState.authError;
-            debugger;
             if(this.error){
-                debugger;
                 this.showErrorAlert(this.error);
             }
         });
@@ -50,7 +48,6 @@ export class AuthComponent implements OnInit, OnDestroy{
     }
 
     onHandleError(){
-        debugger;
         this.store.dispatch(new AuthActions.ClearError());
     }
 
@@ -87,7 +84,6 @@ export class AuthComponent implements OnInit, OnDestroy{
 
         this.isLoading = true;
         if(this.isLoggedMode){
-            debugger;
             // authObs = this.authService.login(email, password);
             this.store.dispatch(new AuthActions.SignInStart({email, password}));
         } else{

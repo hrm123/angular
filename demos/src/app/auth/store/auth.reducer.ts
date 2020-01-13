@@ -12,7 +12,7 @@ export interface State {
 
 
 const initialState : State = {
-    user : null,
+    user : new User("sds","sdsdd","sadsa",null),
     authError : null,
     loading : false
 }

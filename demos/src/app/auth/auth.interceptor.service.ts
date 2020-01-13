@@ -21,15 +21,17 @@ export class AuthInterceptorService implements HttpInterceptor{
 
     intercept(req: HttpRequest<any>, next: HttpHandler):
        Observable<HttpEvent<any>> {
+           debugger;
          return this.store.select('auth').pipe(
              // take(1),
              map(authState => {
                  return authState.user;
              }),
              exhaustMap( user =>{
-                 if(!user){
+                 if(!user || user.email === "sds"){
                      return next.handle(req);
                  }
+                 debugger;
                  const modifiedReq = req.clone({
                     params: new HttpParams().set('auth', user.token)
                   });

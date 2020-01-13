@@ -17,8 +17,6 @@ constructor(private authSvc: AuthService,
   loadedFeature: string = 'recipe';
 
   ngOnInit(){
-    // this.authSvc.autoLogin();
-    debugger;
     this.store.dispatch(new authActions.AutoSignIn());
   }
 

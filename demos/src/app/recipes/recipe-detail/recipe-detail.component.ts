@@ -3,6 +3,9 @@ import { Recipe } from '../recipe.model';
 import { RecipeService } from '../recipe.service';
 import { Ingredient  } from 'src/app/shared/ingredient.model';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import * as fromApp from '../../store/app-reducer';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -15,15 +18,25 @@ export class RecipeDetailComponent implements OnInit {
   id: number;
   constructor(private recipeService: RecipeService,
     private currentRoute: ActivatedRoute,
-    private router : Router
+    private router : Router,
+    private store: Store<fromApp.AppState>
     ) { }
 
   ngOnInit() {
+    debugger;
     this.currentRoute.params.subscribe(
       (params: Params) =>{
-        debugger;
         this.id = +params['id']; //+ just casts string to number
-        this.recipe = this.recipeService.getRecipe(this.id);
+        // this.recipe = this.recipeService.getRecipe(this.id);
+        debugger;
+        this.store.select('recipes').pipe(map(recipesState => {
+          debugger;
+          return recipesState.recipes.find((r,i) => i === this.id )
+        })).subscribe(
+          recipe =>{
+            debugger;
+             this.recipe = recipe;
+          });
       }
       );
   }

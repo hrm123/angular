@@ -5,20 +5,23 @@ import { map, tap, take, exhaustMap } from 'rxjs/operators';
 import { Recipe } from '../recipes/recipe.model';
 import { RecipeService } from '../recipes/recipe.service';
 import { AuthService } from '../auth/auth.service';
+import { Store } from '@ngrx/store';
+import * as fromApp from '../store/app-reducer';
+import * as recipesActions  from '../recipes/store/recipe.actions';
 
 @Injectable({ providedIn: 'root' })
 export class DataStorageService {
   constructor(
     private http: HttpClient,
     private recipeService: RecipeService,
-    private authService: AuthService
+    private store: Store<fromApp.AppState>
   ) {}
 
   storeRecipes() {
     const recipes = this.recipeService.getRecipes();
     this.http
       .put(
-        'https://ng-course-recipe-book-65f10.firebaseio.com/recipes.json',
+        'https://ngdemos-f6fae.firebaseio.com/recipes.json?key=AIzaSyB1z4vjGfZ2e0klKahf2SQAp0B3tRZpMXg',
         recipes
       )
       .subscribe(response => {
@@ -27,9 +30,10 @@ export class DataStorageService {
   }
 
   fetchRecipes() {
+    debugger;
     return this.http
       .get<Recipe[]>(
-        'https://ng-course-recipe-book-65f10.firebaseio.com/recipes.json'
+        'https://ngdemos-f6fae.firebaseio.com/recipes.json?key=AIzaSyB1z4vjGfZ2e0klKahf2SQAp0B3tRZpMXg'
       )
       .pipe(
         map(recipes => {
@@ -41,8 +45,10 @@ export class DataStorageService {
           });
         }),
         tap(recipes => {
-          this.recipeService.setRecipes(recipes);
+          // this.recipeService.setRecipes(recipes);
+          debugger;
+          this.store.dispatch(new recipesActions.SetRecipes(recipes));
         })
-      );
+      ).subscribe();
   }
 }

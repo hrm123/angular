@@ -24,7 +24,6 @@ const handleAuthSuccess = resData =>{
     new Date( new Date().getTime() +  +resData.expiresIn * 1000);
    const user  = new User(resData.email, resData.localId, resData.idToken, expirationDate);
    localStorage.setItem('userData', JSON.stringify(JSON.stringify( user)));
-   debugger;
     return new authActions.SignIn(user); // return the SignIn action taht wil be dispatched by the ngrx effects system
 }
 
@@ -72,10 +71,9 @@ export class AuthEffects {
             }).pipe(
                 take(1),
                 tap(resData => {
-                    this.authService.setLogoutTimer(+resData.expiresIn * 1000);
+                    this.authService.setLogoutTimer(+resData.expiresIn  * 1000);
                 })
                 ,map(resData => {
-                debugger;
                  return handleAuthSuccess(resData);
             }),
             catchError( err => handleAuthFailure(err)) 
@@ -98,7 +96,6 @@ export class AuthEffects {
                 );
             if(loadedUser.token){
                 // this.user.next(loadedUser);
-                debugger;
                 const expirationDuration =
                     new Date(userData._tokenExpirationDate).getTime() -
                     new Date().getTime();
@@ -117,7 +114,6 @@ export class AuthEffects {
     authRedirect = this.actions$.pipe(
         ofType(  authActions.SIGNIN),
         tap(()=>{
-            debugger;
             this.router.navigate(['/']);
         })
     );
@@ -143,7 +139,6 @@ export class AuthEffects {
         tap(() => {
             this.authService.clearLogoutTimer();
             const dummyUser: User = new User("sds","sdsdd","sadsa",null);
-            debugger;
             localStorage.setItem('userData', JSON.stringify(JSON.stringify( dummyUser)));
             this.router.navigate(['/auth']);
         })

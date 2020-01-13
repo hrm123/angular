@@ -19,16 +19,22 @@ export class AuthGuardService implements CanActivate{
      state: import("@angular/router").RouterStateSnapshot):
       boolean | import("@angular/router").UrlTree | import("rxjs").Observable<boolean | import("@angular/router").UrlTree> | Promise<boolean | import("@angular/router").UrlTree> {
         return this.store.select('auth').pipe(
-            take(1),
+            // take(1),
              map(authState => {
                  return authState.user;
              }),
              map(user => { 
+                 try{
              const isAuth =  user && user.email !== "sds";
              if(isAuth){
                  return true;
              }
+             debugger;
              return this.router.createUrlTree(['/auth']);
+            }
+            catch(err){
+                debugger;
+            }
         }), 
 
         /* tap(isAuth =>{
