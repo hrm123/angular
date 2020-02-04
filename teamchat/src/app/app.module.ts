@@ -3,6 +3,12 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import {FormsModule} from  '@angular/forms';
+import {AngularFireModule} from '@angular/fire';
+import {AngularFireAuthModule} from '@angular/fire/auth';
+import {AngularFireDatabaseModule} from '@angular/fire/database-deprecated';
+import {environment} from '../environments/environment';
+
 import { AuthService } from './services/auth.service';
 import { ChatService } from './services/chat.service';
 import { ChatFormComponent } from './chat-form/chat-form.component';
@@ -14,10 +20,6 @@ import { SignupFormComponent } from './signup-form/signup-form.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { UserItemComponent } from './user-item/user-item.component';
-import {AngularFireModule} from '@angular/fire';
-import {AngularFireAuthModule} from '@angular/fire/auth';
-import {AngularFireDatabaseModule} from '@angular/fire/database';
-import {environment} from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -30,16 +32,19 @@ import {environment} from '../environments/environment';
     SignupFormComponent,
     NavbarComponent,
     UserListComponent,
-    UserItemComponent,
+    UserItemComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     AngularFireDatabaseModule
   ],
-  providers: [AuthService, ChatService],
+  providers: [AuthService, ChatService, 
+    AngularFireModule, AngularFireAuthModule,
+    AngularFireDatabaseModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
