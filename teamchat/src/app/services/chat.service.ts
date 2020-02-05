@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class ChatService {
   user: any;
-  chatMessages: AngularFireList<ChatMessage[]>;
+  chatMessages: AngularFireList<any>;
   chatMessage: ChatMessage;
   userName: Observable<string>;
 
@@ -42,24 +42,30 @@ export class ChatService {
 
   getMessages() : Observable<any>{
     //query to create out message feed binding
-    const fbChannel  = this.db.list('messages');
-    return fbChannel.valueChanges();
+    this.chatMessages  = this.db.list('messages');
+    return this.chatMessages.valueChanges();
 
   }
 
   sendMessage(msg: string){
     const timeSent = this.getTimeStamp();
     const email = ( this.user && this.user.email) || "a@1.com";
-    /*
-    this.chatMessages = this.getMessages();
     
+    /*
+    $key?: string;
+    email? : string;
+    userName? : string;
+    message? : string;
+    timeSent? : Date = new Date();
+    */
+
     this.chatMessages.push({
       message: msg,
       timeSent,
       userName : this.userName || "ab",
       email
     });
-    */
+    
     console.log('called send message');
   }
 }
