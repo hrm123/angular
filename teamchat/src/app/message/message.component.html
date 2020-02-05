@@ -1,6 +1,13 @@
 <div class="messageContainer">
-    <p>{{userName}}</p>
-    <p>{{timeStamp}}</p>
-    <p>{{messageData}}</p>
-    <p>{{useremail}}</p>
+    <div class="messageData">
+        <span class="sender">
+            {{userName}}
+        </span>
+        <span class="timestamp">
+            {{timeStamp | date:'medium'}}
+        </span>
+    </div>
+    <div class="messageContent">
+        {{messageData}}
+    </div>
 </div>

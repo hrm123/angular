@@ -35,9 +35,9 @@ export class ChatService {
             now.getUTCDate();
     const time = now.getUTCHours() + ':' +
               now.getUTCMinutes() + ':' +
-              now.getUTCSeconds() + ':'
-              now.getUTCMilliseconds() + ':' ;
-    return (date + 'T' + time + 'Z');
+              now.getUTCSeconds() + ':' +
+              now.getUTCMilliseconds() ;
+    return (date + ' ' + time + ' ');
   }
 
   getMessages() : Observable<any>{
@@ -49,6 +49,7 @@ export class ChatService {
 
   sendMessage(msg: string){
     const timeSent = this.getTimeStamp();
+    debugger;
     const email = ( this.user && this.user.email) || "a@1.com";
     
     /*
