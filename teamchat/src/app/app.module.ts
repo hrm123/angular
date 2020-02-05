@@ -6,7 +6,8 @@ import { AppComponent } from './app.component';
 import {FormsModule} from  '@angular/forms';
 import {AngularFireModule} from '@angular/fire';
 import {AngularFireAuthModule} from '@angular/fire/auth';
-import {AngularFireDatabaseModule} from '@angular/fire/database-deprecated';
+// import {AngularFireDatabaseModule} from '@angular/fire/database-deprecated';
+import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {environment} from '../environments/environment';
 
 import { AuthService } from './services/auth.service';

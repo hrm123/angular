@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {AngularFireDatabase, FirebaseListObservable}
-  from '@angular/fire/database-deprecated';
+// import {AngularFireDatabase, FirebaseListObservable}   from '@angular/fire/database-deprecated';
+import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import {AngularFireAuth} from '@angular/fire/auth';
 import { ChatMessage } from '../models/chat-message.model';
 import { Observable } from 'rxjs';
@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class ChatService {
   user: any;
-  chatMessages: FirebaseListObservable<ChatMessage[]>;
+  chatMessages: AngularFireList<ChatMessage[]>;
   chatMessage: ChatMessage;
   userName: Observable<string>;
 
@@ -40,27 +40,26 @@ export class ChatService {
     return (date + 'T' + time + 'Z');
   }
 
-  getMessages() : FirebaseListObservable<ChatMessage[]>{
+  getMessages() : Observable<any>{
     //query to create out message feed binding
-    return this.db.list('messages',{
-      query: {
-        limitToLast: 25,
-        orderByKey: true
-      }
-    });
+    const fbChannel  = this.db.list('messages');
+    return fbChannel.valueChanges();
 
   }
 
   sendMessage(msg: string){
     const timeSent = this.getTimeStamp();
     const email = ( this.user && this.user.email) || "a@1.com";
+    /*
     this.chatMessages = this.getMessages();
+    
     this.chatMessages.push({
       message: msg,
       timeSent,
       userName : this.userName || "ab",
       email
     });
+    */
     console.log('called send message');
   }
 }
