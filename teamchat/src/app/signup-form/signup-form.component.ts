@@ -23,12 +23,20 @@ export class SignupFormComponent implements OnInit {
   }
 
   signUp(){
-    debugger;
+    
     this.authSvc.signUp(this.email, this.password, this.displayName)
-      .then(resolve => this.router.navigate(['chat'])
+      .then(resolve => {
+        debugger;
+        this.router.navigate(['chat']);
+        
+      }, (err) => {
+        debugger;
+        this.errorMsg = err.message;
+      })
       .catch(error => {
+        debugger;
         this.errorMsg = error.message;
-      }));
+      });
   }
 
 }

@@ -4,6 +4,8 @@ import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import {AngularFireAuth} from '@angular/fire/auth';
 import { ChatMessage } from '../models/chat-message.model';
 import { Observable } from 'rxjs';
+import { User } from '../models/user.model';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -13,21 +15,52 @@ export class ChatService {
   chatMessages: AngularFireList<any>;
   chatMessage: ChatMessage;
   userName: Observable<string>;
-
+  userObj : Observable<User>;
+  usersObj : Observable<User[]>;
 
   constructor(
     private db: AngularFireDatabase,
     private afAuth: AngularFireAuth
   ) { 
 
-    /*
+    
     this.afAuth.authState.subscribe(auth => {
       if(auth !== undefined && auth !== null){
+        debugger;
         this.user = auth;
       }
     })
-    */
+    
+    this.getUser();
   }
+
+  fbObjToUser(fbObj) : User{
+    debugger;
+    return null;
+  }
+
+
+  fblistToUsers(fbList) : User[]{
+    debugger;
+    return null;
+  }
+
+  getUser(){
+    const userId = this.user.uid;
+    const path = `/users/${userId}`;
+    this.userObj =  this.db.object(path).snapshotChanges()
+        .pipe(map(fbObj => this.fbObjToUser(fbObj)));
+    return this.userObj;
+  }
+
+  getUsers(){
+    const userId = this.user.uid;
+    const path = `/users`;
+    this.usersObj =  this.db.list(path).snapshotChanges()
+        .pipe(map(fbList => this.fblistToUsers(fbList)));
+    return this.usersObj;
+  }
+
   getTimeStamp(){
     const now = new Date();
     const date = now.getUTCFullYear() + '/' +

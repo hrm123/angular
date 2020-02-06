@@ -24,13 +24,14 @@ export class AuthService {
     }
 
   get currentUserId() : string {
-    return this.authState !== null ?  this.authState.uid : '';
+    debugger;
+    return (this.authState !== null && this.authState.user !== null)    ?  this.authState.user.uid : '';
   }
 
   setUserData(email: string, displayName: string, status: string) : void{
     const path = `users\${this.currentUserId}`;
 
-    if(this.authState.uid === null){
+    if(this.authState.user.uid === null){
       return;
     }
     const data = {
@@ -57,13 +58,23 @@ export class AuthService {
       .catch(err => console.log(err));
   }
 
-  signUp(email: string,password : string, displayName : string){
+  removeSpecialChars(email : string): string{
+    return email.replace('.','dot')
+        .replace('#','hash')
+        .replace('$','dollar')
+        .replace('[','boxstart')
+        .replace(']','boxfinish');
+  }
 
+  signUp(email: string,password : string, displayName : string){
+    const validEmail = this.removeSpecialChars(email);
+    debugger;
     return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
         .then((user) => {
+          debugger;
           this.authState = user;
           const status = 'online';
-          this.setUserData(email, displayName, status);
+          this.setUserData(validEmail, displayName, status);
         }).catch(err => console.log(err));
 
   }

@@ -35,3 +35,8 @@ app-chat-form{
   display: block;
   height: auto;
 }
+
+.error{
+    background: #fff0f4; 
+    color: #c51244;
+}
