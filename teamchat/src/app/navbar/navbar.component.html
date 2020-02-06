@@ -1,1 +1,18 @@
-<p>navbar works!</p>
+<div class="navBar">
+    <div class="logo"></div>
+    <div class="heading"><a routerLink="/">teamchat</a></div>
+    <div class="links">
+        <span>
+            <a *ngIf="!(user|async)?.uid" href="#" (click)="login()">Sign On</a>
+        </span>
+        <span>
+            <a *ngIf="!(user|async)?.uid" href="#" routerLinl="/signup">Sign Up</a>
+        </span>
+        <span>
+            <span id="userEmail" *ngIf="!(user|async)?.uid">Hi, {{userEmail}}</span>
+        </span>
+        <span>
+            <a *ngIf="!(user|async)?.uid" href="#" (click)="logout()">Sign Out</a>
+        </span>
+    </div>
+</div>

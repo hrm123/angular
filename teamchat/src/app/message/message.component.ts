@@ -16,6 +16,7 @@ export class MessageComponent implements OnInit {
   userName: string;
   messageData : string;
   timeStamp : Date;
+  isOwnMessage: boolean;
 
   constructor(private chatService : ChatService,
       private authService: AuthService) { }

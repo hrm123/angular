@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import * as fb from 'firebase/app';
+import { Observable } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -6,10 +9,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+  user: Observable<fb.User>;
+  userEmail : string;
 
-  constructor() { }
+
+  constructor(private authSvc: AuthService ) { }
 
   ngOnInit() {
+    this.user = this.authSvc.authUser();
+    this.user.subscribe( user =>{
+      if(user){
+        this.userEmail = user.email;
+      }
+    });
   }
 
 }

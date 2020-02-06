@@ -23,6 +23,10 @@ export class AuthService {
       this.user = afAuth.authState;
     }
 
+    authUser(){
+      return this.user;
+    }
+
   get currentUserId() : string {
     debugger;
     return (this.authState !== null && this.authState.user !== null)    ?  this.authState.user.uid : '';
