@@ -33,7 +33,8 @@ export class AuthService {
   }
 
   setUserData(email: string, displayName: string, status: string) : void{
-    const path = `users\${this.currentUserId}`;
+    debugger;
+    const path = `users/${this.currentUserId}`;
 
     if(this.authState.user.uid === null){
       return;

@@ -3,16 +3,16 @@
     <div class="heading"><a routerLink="/">teamchat</a></div>
     <div class="links">
         <span>
-            <a *ngIf="!(user|async)?.uid" href="#" (click)="login()">Sign On</a>
+            <a *ngIf="!uid" href="#" (click)="login()">Signon</a>
         </span>
         <span>
-            <a *ngIf="!(user|async)?.uid" href="#" routerLinl="/signup">Sign Up</a>
+            <a *ngIf="!uid" href="#" routerLink="/signup">Signup</a>
         </span>
         <span>
-            <span id="userEmail" *ngIf="!(user|async)?.uid">Hi, {{userEmail}}</span>
+            <span id="userEmail" *ngIf="uid">Hi, {{userEmail}}</span>
         </span>
         <span>
-            <a *ngIf="!(user|async)?.uid" href="#" (click)="logout()">Sign Out</a>
+            <a *ngIf="uid" href="#" (click)="logout()">Signout</a>
         </span>
     </div>
 </div>

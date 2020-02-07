@@ -11,15 +11,17 @@ import { AuthService } from '../services/auth.service';
 export class NavbarComponent implements OnInit {
   user: Observable<fb.User>;
   userEmail : string;
-
+  uid : string;
 
   constructor(private authSvc: AuthService ) { }
 
   ngOnInit() {
     this.user = this.authSvc.authUser();
     this.user.subscribe( user =>{
+      debugger;
       if(user){
         this.userEmail = user.email;
+        this.uid = user.uid;
       }
     });
   }

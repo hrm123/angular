@@ -6,12 +6,14 @@ import { ChatMessage } from '../models/chat-message.model';
 import { Observable } from 'rxjs';
 import { User } from '../models/user.model';
 import {map} from 'rxjs/operators';
+import * as fb from 'firebase/app';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
-  user: any;
+  user: fb.User;
   chatMessages: AngularFireList<any>;
   chatMessage: ChatMessage;
   userName: Observable<string>;
@@ -26,12 +28,14 @@ export class ChatService {
     
     this.afAuth.authState.subscribe(auth => {
       if(auth !== undefined && auth !== null){
-        debugger;
         this.user = auth;
+        this.getUser().subscribe( (u: any) => {
+          this.userName = u.displayName;
+        });
       }
     })
     
-    this.getUser();
+    
   }
 
   fbObjToUser(fbObj) : User{
@@ -45,12 +49,15 @@ export class ChatService {
     return null;
   }
 
-  getUser(){
+  getUser() {
     const userId = this.user.uid;
-    const path = `/users/${userId}`;
-    this.userObj =  this.db.object(path).snapshotChanges()
-        .pipe(map(fbObj => this.fbObjToUser(fbObj)));
-    return this.userObj;
+    if(userId){
+      const path = `/users/${userId}`;
+    // this.userObj =  this.db.object(path).snapshotChanges()
+       // .pipe(map(fbObj => this.fbObjToUser(fbObj)));
+       return this.db.object(path).valueChanges();
+    }
+    
   }
 
   getUsers(){
