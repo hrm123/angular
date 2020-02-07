@@ -82,8 +82,17 @@ export class AuthService {
           this.setUserData(validEmail, displayName, status);
         }).catch(err => console.log(err));
 
+
+    
+
   }
 
+  
+  signout() {
+    this.afAuth.auth.signOut();
+    this.router.navigate(['login']);
+  }
+  
   signOn(email: string,password : string){
 
     return this.afAuth.auth.signInWithEmailAndPassword(email, password)
