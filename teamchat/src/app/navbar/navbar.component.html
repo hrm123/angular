@@ -3,16 +3,13 @@
     <div class="heading"><a routerLink="/">teamchat</a></div>
     <div class="links">
         <span>
-            <a *ngIf="!uid" href="#" (click)="login()">Signon</a>
-        </span>
-        <span>
-            <a *ngIf="!uid" href="#" routerLink="/signup">Signup</a>
+            <a *ngIf="!uid" href="#" routerLink="/signon">Signon</a>
         </span>
         <span>
             <span id="userEmail" *ngIf="uid">Hi, {{userEmail}}</span>
         </span>
         <span>
-            <a *ngIf="uid" href="#" (click)="logout()">Signout</a>
+            <a *ngIf="uid" href="#" (click)="signout()">Signout</a>
         </span>
     </div>
 </div>

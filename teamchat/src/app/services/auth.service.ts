@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { User } from '../models/user.model';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import {AngularFireAuth} from '@angular/fire/auth';
+import { first } from 'rxjs/operators';
 
 
 @Injectable({
@@ -27,9 +28,14 @@ export class AuthService {
       return this.user;
     }
 
+    isAuthenticated() {
+      return this.afAuth.authState.pipe(first())
+    }
+
   get currentUserId() : string {
     debugger;
-    return (this.authState !== null && this.authState.user !== null)    ?  this.authState.user.uid : '';
+    return (this.authState !== null && this.authState.user !== null) 
+       ?  this.authState.uid : '';
   }
 
   setUserData(email: string, displayName: string, status: string) : void{
@@ -50,7 +56,7 @@ export class AuthService {
   }
 
   setUserStatus(status: string) : void{
-    const path = `users\${this.currentUserId}`;
+    const path = `users/${this.currentUserId}`;
 
     if(this.authState.uid === null){
       return;
@@ -90,13 +96,15 @@ export class AuthService {
   
   signout() {
     this.afAuth.auth.signOut();
+    // this.user = null;
     this.router.navigate(['login']);
   }
   
   signOn(email: string,password : string){
-
+debugger;
     return this.afAuth.auth.signInWithEmailAndPassword(email, password)
-        .then((resolve) => {
+        .then((user) => {
+          this.authState = user;
           const status = 'online';
           this.setUserStatus(status);
           this.router.navigate(['chat']);

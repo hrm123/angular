@@ -26,4 +26,8 @@ export class NavbarComponent implements OnInit {
     });
   }
 
+  
+  signout() {
+    this.authSvc.signout();
+  }
 }

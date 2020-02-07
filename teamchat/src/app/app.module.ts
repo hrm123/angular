@@ -21,6 +21,7 @@ import { SignupFormComponent } from './signup-form/signup-form.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { UserItemComponent } from './user-item/user-item.component';
+import { AuthGuardService } from './services/auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,7 @@ import { UserItemComponent } from './user-item/user-item.component';
   ],
   providers: [AuthService, ChatService, 
     AngularFireModule, AngularFireAuthModule,
-    AngularFireDatabaseModule],
+    AngularFireDatabaseModule, AuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

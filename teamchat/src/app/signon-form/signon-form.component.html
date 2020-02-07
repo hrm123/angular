@@ -13,7 +13,8 @@
         <button class="btn" 
                 id="btn-login" 
                 (click)="login()">
-                Log In
+                Sign On
         </button>
+        <div>Not registered yet ?  <a *ngIf="!uid" href="#" routerLink="/signup">Register</a></div>
     </div>
   </div>
