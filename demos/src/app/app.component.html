@@ -1,11 +1,18 @@
 <app-header ></app-header>
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <router-outlet></router-outlet>
-      
-      <!-- app-recipes *ngIf=" loadedFeature === 'recipe'"></!-- app-recipes>
-      <app-shopping-list *ngIf="loadedFeature === 'shopping-list'"></app-shopping-list -->
+
+<div class="container panel panel-default">
+  <div class="panel-heading row">
+    <h3 class="h3">Please Sign Up (or) login</h3>
+  </div>
+  <div class=" panel-body">
+    <div class="row">
+      <div class="col-md-12" [@routeAnimations]="prepareRoute(outlet)">
+    
+        <router-outlet  #outlet="outlet"></router-outlet>
+        
+        <!-- app-recipes *ngIf=" loadedFeature === 'recipe'"></!-- app-recipes>
+        <app-shopping-list *ngIf="loadedFeature === 'shopping-list'"></app-shopping-list -->
+      </div>
     </div>
   </div>
 </div>
