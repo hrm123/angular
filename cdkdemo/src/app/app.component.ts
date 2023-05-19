@@ -1,22 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SnackbarService } from './sb/snackbar/snackbar.service';
+import { Observable } from 'rxjs';
+import { ThemeServiceService } from './theme-service.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'cdkdemo';
-  private count = 1;
-  
-  constructor(private toastService: SnackbarService) { }
+  isDarkTheme: boolean = true;
 
-  showToast() {
-    this.toastService.openSnackbar(`Toast message ${this.count}`
-    );
+  constructor( private themeService: ThemeServiceService,) { }
 
-    this.count += 1;
+
+  ngOnInit(){
+    this.themeService.isDarkTheme.subscribe(isDark => { this.isDarkTheme = isDark; });
   }
 
 }

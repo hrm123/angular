@@ -30,6 +30,9 @@
               "src/assets"
             ],
             "styles": [
+              {
+                "input": "src/themes.scss"
+              },
               "@angular/material/prebuilt-themes/purple-green.css",
               "src/styles.scss"
             ],
