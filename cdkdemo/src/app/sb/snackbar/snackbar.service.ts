@@ -46,8 +46,12 @@ export class SnackbarService {
   }
 
    openSnackbar(message: string, options?: any){
+    debugger;
     const positionStrategy = this.getPositionStrategy();
     const overlayRef = this.overlay.create({ positionStrategy });
+    if(overlayRef.hasAttached()){
+      overlayRef.detach();
+    }
     const toastRef = new SnackbarRef(overlayRef);
     this.lastSnackbar = toastRef;
     let detail: SnackbarDetail = {
