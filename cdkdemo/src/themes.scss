@@ -48,14 +48,15 @@ $angular-dark-theme: mat.define-dark-theme(
 // Define a custom mixin that takes in the current theme
 @mixin theme-color-grabber-light() {
     // Parse the theme and create variables for each color in the pallete
-    $primary: map-get($angular-default-theme, primary);
+    $primarylight: map-get($angular-default-theme, primary);
     $accent: map-get($angular-default-theme, accent);
     $warn: map-get($angular-default-theme, warn);
-    @debug "primary #{mat-color($primary)}";
+    @debug "primary #{mat-color($primarylight)}";
 
     // Create theme specfic styles
         .primaryColorBG {
-            background-color: mat-color($primary);
+            background-color: mat-color($primarylight) !important;
+            color: mat-contrast($accent, 100) !important;
         }
         .accentColorBG {
             background-color: mat-color($accent);
@@ -76,14 +77,15 @@ $angular-dark-theme: mat.define-dark-theme(
 
   @mixin theme-color-grabber-dark() {
     // Parse the theme and create variables for each color in the pallete
-    $primary: map-get($angular-dark-theme, primary);
+    $primarydark: map-get($angular-dark-theme, primary);
     $accent: map-get($angular-dark-theme, accent);
     $warn: map-get($angular-dark-theme, warn);
-    @debug "primary dark #{mat-color($primary)}";
+    @debug "primary dark #{mat-color($primarydark)}";
     .dark-theme{
     // Create theme specfic styles
         .primaryColorBG {
-        background-color: mat-color($primary);
+            background-color: mat-color($primarydark) !important;
+            color: mat-contrast($primarydark, 100) !important;
         }
         .accentColorBG {
         background-color: mat-color($accent);
