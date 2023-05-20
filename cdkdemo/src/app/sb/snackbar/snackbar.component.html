@@ -1,3 +1,7 @@
-<div class="toast primaryColorBG">
+<div class="toast primaryColorBG" [@fadeAnimation]="{value: animationState, params:
+  { fadeIn: snackbarConfig.animation, fadeOut: snackbarConfig.animation?.fadeOut }}"
+(@fadeAnimation.done)="onFadeFinished($event)">
+    <mat-icon>{{ iconType }}</mat-icon>
     <div  >{{detail.text}}</div>
+    <mat-icon (click)="close()">close</mat-icon>
   </div>

@@ -11,7 +11,8 @@ export interface ToastDetail {
 @Component({
   selector: 'app-snackbar',
   templateUrl: './snackbar.component.html',
-  styleUrls: ['./snackbar.component.scss']
+  styleUrls: ['./snackbar.component.scss'],
+  animations: [snackBarAnimations.fadeToast],
 })
 export class SnackbarComponent implements OnInit, OnDestroy {
   animationState: SnackbarAnimationState = 'default';
@@ -23,7 +24,7 @@ export class SnackbarComponent implements OnInit, OnDestroy {
   constructor(
     public readonly detail: SnackbarDetail,
     readonly ref: SnackbarRef,
-    @Inject(SNACKBAR_CONFIG_TOKEN) private snackbarConfig: SnackbarConfig
+    @Inject(SNACKBAR_CONFIG_TOKEN) public snackbarConfig: SnackbarConfig
     ) {
       this.iconType = detail.type === 'success' ? 'done' : detail.type;
   }

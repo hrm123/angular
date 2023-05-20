@@ -1,6 +1,7 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SbRoutingModule } from './sb-routing.module';
+import { MatIconModule } from '@angular/material/icon';
 import { SbComponent } from './sb.component';
 import { SnackbarComponent } from './snackbar/snackbar.component';
 import {OverlayModule} from '@angular/cdk/overlay';
@@ -14,7 +15,8 @@ import { SNACKBAR_CONFIG_TOKEN, defaultSnackbarConfig } from './snackbar/snackba
   imports: [
     CommonModule,
     SbRoutingModule,
-    OverlayModule 
+    OverlayModule,
+    MatIconModule 
   ],
   exports: [
     SbComponent
