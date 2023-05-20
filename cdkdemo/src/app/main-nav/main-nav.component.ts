@@ -11,11 +11,11 @@ import { ThemeServiceService } from '../theme-service.service';
 })
 export class MainNavComponent implements OnInit {
   private breakpointObserver = inject(BreakpointObserver);
-  isDarkTheme!: Observable<boolean>;
+  isDarkTheme: boolean = true;
 
 
   ngOnInit(){
-    this.isDarkTheme = this.themeService.isDarkTheme;
+     this.themeService.isDarkTheme.subscribe(theme =>  this.isDarkTheme = theme);
   }
 
   constructor( private themeService: ThemeServiceService,) { }
@@ -26,7 +26,7 @@ export class MainNavComponent implements OnInit {
       shareReplay()
     );
 
-    toggleDarkTheme(checked: boolean) {
-      this.themeService.setDarkTheme(checked);
+    toggleDarkTheme() {
+      this.themeService.setDarkTheme(!this.isDarkTheme);
     }
 }

@@ -25,7 +25,6 @@ export class SnackbarComponent implements OnInit, OnDestroy {
     readonly ref: SnackbarRef,
     @Inject(SNACKBAR_CONFIG_TOKEN) private snackbarConfig: SnackbarConfig
     ) {
-      debugger;
       this.iconType = detail.type === 'success' ? 'done' : detail.type;
   }
 

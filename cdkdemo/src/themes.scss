@@ -26,8 +26,8 @@ $angular-default-theme: mat.define-light-theme(
 $angular-dark-theme: mat.define-dark-theme(
   (
     color: (
-      primary: $angular-primary,
-      accent: $angular-accent,
+      primary: mat.define-palette(mat.$pink-palette),
+      accent: mat.define-palette(mat.$blue-grey-palette),
       warn: $angular-warn,
     ),
   )
@@ -36,3 +36,69 @@ $angular-dark-theme: mat.define-dark-theme(
 .dark-theme {
   @include mat.all-component-colors($angular-dark-theme);
 }
+
+.light-theme{
+    @include mat.all-component-colors($angular-default-theme);
+}
+
+// Apply the light theme only when the user prefers light themes.
+// @media (prefers-color-scheme: light) {
+
+
+// Define a custom mixin that takes in the current theme
+@mixin theme-color-grabber-light() {
+    // Parse the theme and create variables for each color in the pallete
+    $primary: map-get($angular-default-theme, primary);
+    $accent: map-get($angular-default-theme, accent);
+    $warn: map-get($angular-default-theme, warn);
+    @debug "primary #{mat-color($primary)}";
+
+    // Create theme specfic styles
+        .primaryColorBG {
+            background-color: mat-color($primary);
+        }
+        .accentColorBG {
+            background-color: mat-color($accent);
+        }
+        .warnColorBG {
+            background-color: mat-color($warn);
+        }
+  }
+
+  @include theme-color-grabber-light();
+
+  /*
+  .light-theme{
+  @include theme-color-grabber-light($angular-default-theme);
+  }
+  */
+
+
+  @mixin theme-color-grabber-dark() {
+    // Parse the theme and create variables for each color in the pallete
+    $primary: map-get($angular-dark-theme, primary);
+    $accent: map-get($angular-dark-theme, accent);
+    $warn: map-get($angular-dark-theme, warn);
+    @debug "primary dark #{mat-color($primary)}";
+    .dark-theme{
+    // Create theme specfic styles
+        .primaryColorBG {
+        background-color: mat-color($primary);
+        }
+        .accentColorBG {
+        background-color: mat-color($accent);
+        }
+        .warnColorBG {
+        background-color: mat-color($warn);
+        }
+    }
+  }
+  
+  @include theme-color-grabber-dark();
+
+  /*
+  .dark-theme {
+    @include theme-color-grabber-dark($angular-dark-theme);
+  }
+  */
+

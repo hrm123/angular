@@ -46,7 +46,6 @@ export class SnackbarService {
   }
 
    openSnackbar(message: string, options?: any){
-    debugger;
     const positionStrategy = this.getPositionStrategy();
     const overlayRef = this.overlay.create({ positionStrategy });
     if(overlayRef.hasAttached()){

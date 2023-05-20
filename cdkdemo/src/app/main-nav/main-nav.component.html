@@ -9,8 +9,14 @@
       <a mat-list-item href="#">Link 1</a>
       <a mat-list-item href="#">Link 2</a>
       <a mat-list-item href="#">Link 3</a>
-      <mat-slide-toggle [checked]="isDarkTheme | async" (change)="toggleDarkTheme($event.checked)">Dark theme
-      </mat-slide-toggle>
+      <button
+        mat-icon-button
+        (click)="toggleDarkTheme()"
+      >
+        <mat-icon>{{ isDarkTheme ? "dark_mode" : "light_mode" }}</mat-icon>
+      </button>
+      <!-- mat-slide-toggle [checked]="isDarkTheme | async" (change)="toggleDarkTheme($event.checked)">Dark theme
+      </mat-slide-toggle -->
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -26,6 +32,6 @@
       <span>Material Demos</span>
     </mat-toolbar>
     
-    <router-outlet></router-outlet>  
+    <div class="outlet-wrapper"><router-outlet></router-outlet></div>
   </mat-sidenav-content>
 </mat-sidenav-container>
